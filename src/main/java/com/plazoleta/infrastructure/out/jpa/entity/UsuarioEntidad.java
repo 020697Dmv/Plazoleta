@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "usuario")
-public class Usuario {
+public class UsuarioEntidad {
 	
 	@Id
 	@Column(name="documento_identidad")
