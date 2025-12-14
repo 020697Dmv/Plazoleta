@@ -5,4 +5,6 @@ public class UsuarioExisteExcepcion extends RuntimeException{
 	public UsuarioExisteExcepcion() {
 		super();
 	}
+	
+	
 }

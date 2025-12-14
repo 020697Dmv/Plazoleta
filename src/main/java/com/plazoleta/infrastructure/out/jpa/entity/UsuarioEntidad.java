@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,10 +31,10 @@ public class UsuarioEntidad {
 	private String apellido;
 	
 	@Column()
-	private Long celular;
+	private String celular;
 
 	@Column(name="fecha_nacimiento")
-	private String fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	
 	@Column()
 	private String correo;
