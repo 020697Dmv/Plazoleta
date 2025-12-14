@@ -19,14 +19,12 @@ import com.plazoleta.domain.model.Usuario;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UsuarioHandler implements  IUsuarioHandler{
+public class UsuarioHandler implements  IUsuarioHandler {
 	
 	public final IUserServicePort usuarioServicioPort;
 	public final IUsuarioRequestMapper usuarioRequestMapper;
 	public final IUsuarioResponseMapper usuarioResponseMapper;
 	public final IMensajeRespuestaMapper StringMessageResponse;
-
-
 	
 	@Override
 	public StringRespuestaDto guardarUsuario(UsuarioRequesteDto usuarioRequesteDto) {

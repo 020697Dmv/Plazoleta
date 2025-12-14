@@ -8,8 +8,10 @@ import com.plazoleta.infrastructure.out.jpa.mapper.IUsuarioEntidadMapeo;
 import com.plazoleta.infrastructure.out.jpa.repository.IUsuarioRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
+@Service
 public class UsuarioAdapter implements IUserPersistencePort  {
 	
 	private final IUsuarioRepository usuarioRepository;
@@ -22,7 +24,7 @@ public class UsuarioAdapter implements IUserPersistencePort  {
 		if(usuarioRepository.findById(usuario.getId()).isPresent()) {
 			 throw new UsuarioExisteExcepcion();			
 		}
-		
+		usuario.setRol("PROPIETARIO");
 		UsuarioEntidad usuarioEntidad=usuarioRepository.save(usuarioEntidadMapeo.cambioEntidad(usuario));
 			
 		return usuarioEntidadMapeo.cambioUsuario(usuarioEntidad);
