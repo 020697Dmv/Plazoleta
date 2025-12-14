@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class UsuarioRequesteDto {
 	
-private Long id;
+	private Long id;
 	
 	private String nombre;
 	
@@ -22,5 +22,7 @@ private Long id;
 	private String correo;
 	
 	private String clave;
+	
+
 
 }

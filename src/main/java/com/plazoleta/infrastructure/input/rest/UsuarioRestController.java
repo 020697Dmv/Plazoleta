@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/neighborhood")
+@RequestMapping("/api/v1/Usuario")
 @RequiredArgsConstructor
 public class UsuarioRestController {
 	
@@ -30,7 +30,7 @@ public class UsuarioRestController {
             @ApiResponse(responseCode = "201", description = "Neighborhood created", content = @Content),
             @ApiResponse(responseCode = "409", description = "Neighborhood already exists", content = @Content)
     })
-    @PostMapping("/")
+    @PostMapping("/Usuarios")
     public ResponseEntity<StringRespuestaDto> saveUsuario(@RequestBody UsuarioRequesteDto usuarioRequesteDto) {
         return new ResponseEntity<>(usuarioHandler.guardarUsuario(usuarioRequesteDto), HttpStatus.CREATED);
     }
