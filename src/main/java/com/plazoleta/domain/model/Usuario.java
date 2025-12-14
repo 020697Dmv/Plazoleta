@@ -2,6 +2,7 @@ package com.plazoleta.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
 
 public class Usuario {
 	
@@ -12,9 +13,9 @@ public class Usuario {
 	
 	private String apellido;
 	
-	private Long celular;
+	private String celular;
 
-	private String fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	
 	private String correo;
 	
@@ -28,7 +29,7 @@ public class Usuario {
 		
 	}
 
-	public Usuario(Long id, String nombre, String apellido, Long celular, String fechaNacimiento, String correo,
+	public Usuario(Long id, String nombre, String apellido, String celular, LocalDate fechaNacimiento, String correo,
 			String clave, String rol) {
 		super();
 		this.id = id;
@@ -65,19 +66,19 @@ public class Usuario {
 		this.apellido = apellido;
 	}
 
-	public Long getCelular() {
+	public String getCelular() {
 		return celular;
 	}
 
-	public void setCelular(Long celular) {
+	public void setCelular(String celular) {
 		this.celular = celular;
 	}
 
-	public String getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(String fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
