@@ -3,14 +3,14 @@ package com.plazoleta.application.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-import com.plazoleta.application.dto.request.UsuarioRequesteDto;
-import com.plazoleta.domain.model.Usuario;
+import com.plazoleta.application.dto.request.UserRequesteDto;
+import com.plazoleta.domain.model.User;
 
 @Mapper(componentModel = "spring",
 unmappedTargetPolicy = ReportingPolicy.IGNORE,
 unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IUsuarioRequestMapper {
 	
-	Usuario aUsuario(UsuarioRequesteDto usuarioRequesteDto);
+	User aUsuario(UserRequesteDto usuarioRequesteDto);
 
 }

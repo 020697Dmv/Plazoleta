@@ -1,14 +1,14 @@
 package com.plazoleta.domain.validacion;
 
-import com.plazoleta.domain.exception.DominionExcepcion;
-import com.plazoleta.infrastructure.excepcion.UsuarioExisteExcepcion;
+import com.plazoleta.domain.exception.DomainExcepcion;
+import com.plazoleta.infrastructure.excepcion.UsuarioExistExcepcion;
 import java.util.regex.Pattern;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class ValidacionUtilidades {
+public class ValidationUtils {
 	
-	private ValidacionUtilidades() {
+	private ValidationUtils() {
 		
 	}
 	
@@ -32,17 +32,17 @@ public class ValidacionUtilidades {
 	
 	public static <T> T requeridoNoNull(T obj, String field) {
         if (obj == null) {
-            throw new DominionExcepcion(field + " No puede ser nulo");
+            throw new DomainExcepcion(field + " No puede ser nulo");
         }
         return obj;
     }
 	
 	 public static String requeridoEmailValido(String email, String field) {
 	        if (email == null || email.trim().isEmpty()) {
-	            throw new DominionExcepcion(field + " no puede ser vacío");
+	            throw new DomainExcepcion(field + " no puede ser vacío");
 	        }
 	        if (!emailPatron.matcher(email).matches()) {
-	            throw new DominionExcepcion(field + " no tiene un formato válido");
+	            throw new DomainExcepcion(field + " no tiene un formato válido");
 	        }
 	        return email;
 	    }
@@ -50,23 +50,23 @@ public class ValidacionUtilidades {
 	
 	 public static String requeridoTelefonoValido(String telefono, String field) {
 	        if (telefono == null || telefono.trim().isEmpty()) {
-	            throw new DominionExcepcion(field + " no puede ser vacío");
+	            throw new DomainExcepcion(field + " no puede ser vacío");
 	        }
 	        if (telefono.length() > 13) {
-	            throw new DominionExcepcion(field + " no puede tener más de 13 caracteres");
+	            throw new DomainExcepcion(field + " no puede tener más de 13 caracteres");
 	        }
 	        if (!TELEFONO_PATTERN.matcher(telefono).matches()) {
-	            throw new DominionExcepcion(field + " tiene un formato inválido");
+	            throw new DomainExcepcion(field + " tiene un formato inválido");
 	        }
 	        return telefono;
 	    }
 
 	 public static Long requeridoDocumentoValido(Long documento, String field) {
 		    if (documento == null) {
-		        throw new DominionExcepcion(field + " no puede ser nulo");
+		        throw new DomainExcepcion(field + " no puede ser nulo");
 		    }
 		    if (documento <= 0) {
-		        throw new DominionExcepcion(field + " debe ser un número positivo");
+		        throw new DomainExcepcion(field + " debe ser un número positivo");
 		    }
 		    return documento;
 		}
@@ -74,13 +74,13 @@ public class ValidacionUtilidades {
 	 
 	 public static LocalDate requeridoMayorDeEdad(LocalDate fechaNacimiento, String field) {
 		    if (fechaNacimiento == null) {
-		        throw new DominionExcepcion(field + " no puede ser nulo");
+		        throw new DomainExcepcion(field + " no puede ser nulo");
 		    }
 
 		    int edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
 
 		    if (edad < 18) {
-		        throw new DominionExcepcion("El usuario debe ser mayor de edad");
+		        throw new DomainExcepcion("El usuario debe ser mayor de edad");
 		    }
 
 		    return fechaNacimiento;

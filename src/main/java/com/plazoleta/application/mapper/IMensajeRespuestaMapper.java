@@ -3,7 +3,7 @@ package com.plazoleta.application.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-import com.plazoleta.application.dto.response.StringRespuestaDto;
+import com.plazoleta.application.dto.response.StringResponseDto;
 import com.plazoleta.domain.model.MessageResponse;
 
 
@@ -12,6 +12,6 @@ import com.plazoleta.domain.model.MessageResponse;
 unmappedTargetPolicy = ReportingPolicy.IGNORE,
 unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IMensajeRespuestaMapper {
-	StringRespuestaDto toResponse(MessageResponse messageResponse);
+	StringResponseDto toResponse(MessageResponse messageResponse);
 
 }

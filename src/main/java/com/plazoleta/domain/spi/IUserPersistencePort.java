@@ -1,8 +1,8 @@
 package com.plazoleta.domain.spi;
 
-import com.plazoleta.domain.model.Usuario;
+import com.plazoleta.domain.model.User;
 
 public interface IUserPersistencePort {
-	Usuario guardarUsuario(Usuario usuario);
+	User saveUser(User usuario);
 
 }

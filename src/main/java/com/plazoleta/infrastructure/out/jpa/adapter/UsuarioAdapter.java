@@ -1,9 +1,9 @@
 package com.plazoleta.infrastructure.out.jpa.adapter;
 
-import com.plazoleta.domain.model.Usuario;
+import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IUserPersistencePort;
-import com.plazoleta.infrastructure.excepcion.UsuarioExisteExcepcion;
-import com.plazoleta.infrastructure.out.jpa.entity.UsuarioEntidad;
+import com.plazoleta.infrastructure.excepcion.UsuarioExistExcepcion;
+import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IUsuarioEntidadMapeo;
 import com.plazoleta.infrastructure.out.jpa.repository.IUsuarioRepository;
 
@@ -19,15 +19,15 @@ public class UsuarioAdapter implements IUserPersistencePort  {
 
 	
 	@Override
-	public Usuario guardarUsuario(Usuario usuario) {
+	public User saveUser(User user) {
 
-		if(usuarioRepository.findById(usuario.getId()).isPresent()) {
-			 throw new UsuarioExisteExcepcion();			
+		if(usuarioRepository.findById(user.getId()).isPresent()) {
+			 throw new UsuarioExistExcepcion();			
 		}
-		usuario.setRol("PROPIETARIO");
-		UsuarioEntidad usuarioEntidad=usuarioRepository.save(usuarioEntidadMapeo.cambioEntidad(usuario));
+		user.setRole("PROPIETARIO");
+		UserEntity userEntity=usuarioRepository.save(usuarioEntidadMapeo.toEntity(user));
 			
-		return usuarioEntidadMapeo.cambioUsuario(usuarioEntidad);
+		return usuarioEntidadMapeo.toUser(userEntity);
 	}
 
 }

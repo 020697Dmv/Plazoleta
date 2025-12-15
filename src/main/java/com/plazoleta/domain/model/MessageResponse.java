@@ -2,20 +2,20 @@ package com.plazoleta.domain.model;
 
 public class MessageResponse {
     
-	  private String mensaje; 
+	private String message;
 
-	    public MessageResponse() {
-	    }
+    public MessageResponse() {
+    }
 
-	    public MessageResponse(String mensaje) { 
-	        this.mensaje = mensaje;
-	    }
+    public MessageResponse(String message) {
+        this.message = message;
+    }
 
-	    public String getMensaje() {
-	        return mensaje;
-	    }
+    public String getMessage() {
+        return message;
+    }
 
-	    public void setMensaje(String mensaje) { 
-	        this.mensaje = mensaje;
-	    }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }
