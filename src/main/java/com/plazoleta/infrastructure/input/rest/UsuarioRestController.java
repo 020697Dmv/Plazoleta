@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.plazoleta.application.dto.request.UsuarioRequesteDto;
-import com.plazoleta.application.dto.response.StringRespuestaDto;
-import com.plazoleta.application.handler.IUsuarioHandler;
+import com.plazoleta.application.dto.request.UserRequesteDto;
+import com.plazoleta.application.dto.response.StringResponseDto;
+import com.plazoleta.application.handler.IUserHandler;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UsuarioRestController {
 	
-	private final IUsuarioHandler usuarioHandler;
+	private final IUserHandler usuarioHandler;
 	
 	@Operation(summary = "Add a new neighborhood")
     @ApiResponses(value = {
@@ -31,7 +31,7 @@ public class UsuarioRestController {
             @ApiResponse(responseCode = "409", description = "Neighborhood already exists", content = @Content)
     })
     @PostMapping("/Usuarios")
-    public ResponseEntity<StringRespuestaDto> saveUsuario(@RequestBody UsuarioRequesteDto usuarioRequesteDto) {
+    public ResponseEntity<StringResponseDto> saveUser(@RequestBody UserRequesteDto usuarioRequesteDto) {
         return new ResponseEntity<>(usuarioHandler.guardarUsuario(usuarioRequesteDto), HttpStatus.CREATED);
     }
 	

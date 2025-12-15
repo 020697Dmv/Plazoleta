@@ -17,31 +17,31 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "usuario")
-public class UsuarioEntidad {
+@Table(name = "user")
+public class UserEntity {
 	
 	@Id
-	@Column(name="documento_identidad")
+	@Column(name="identity_document")
 	private Long id;
 	
 	@Column()
-	private String nombre;
+	private String name;
 	
 	@Column()
-	private String apellido;
+	private String lastname;
 	
 	@Column()
-	private String celular;
+	private String phone;
 
-	@Column(name="fecha_nacimiento")
-	private LocalDate fechaNacimiento;
+	@Column(name="birthdate")
+	private LocalDate birthdate;
 	
 	@Column()
-	private String correo;
+	private String email;
 	
 	@Column()
-	private String clave;
+	private String password;
 	
 	@Column()
-	private String rol;
+	private String role;
 }
