@@ -19,7 +19,7 @@ public class UserUseCase  implements IUserServicePort {
 		UserValidation.validateUser(user);
 		user.setRole("PROPIETARIO");
 		User saveUsers=userPersistencePort.saveUser(user);
-        return new MessageResponse(String.format("Neighborhood created with id %d", saveUsers.getId()));
+        return new MessageResponse(String.format("Usuario created with id %d", saveUsers.getId()));
 	}
 
 }
