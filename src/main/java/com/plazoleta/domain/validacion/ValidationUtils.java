@@ -1,7 +1,7 @@
 package com.plazoleta.domain.validacion;
 
 import com.plazoleta.domain.exception.DomainExcepcion;
-import com.plazoleta.infrastructure.excepcion.UsuarioExistExcepcion;
+import com.plazoleta.infrastructure.excepcion.UserExistExcepcion;
 import java.util.regex.Pattern;
 import java.time.LocalDate;
 import java.time.Period;
@@ -20,14 +20,22 @@ public class ValidationUtils {
 
     private static final String DOCUMENTO_PATRON =
             "^[0-9]+$";
+    
+    private static final String NOMBRE_RESTAURANTE_PATRON =
+            "^(?=.*[a-zA-Z])[a-zA-Z0-9\\s]+$";
+    
+    private static final Pattern name_valid =
+            Pattern.compile(NOMBRE_RESTAURANTE_PATRON);
+    
+    private static final Pattern document_valid =
+            Pattern.compile(DOCUMENTO_PATRON);
 	
     private static final Pattern emailPatron = Pattern.compile(EMAIL_PATRON);
     
     private static final Pattern TELEFONO_PATTERN =
             Pattern.compile(TELEFONO_PATRON);
 
-    private static final Pattern DOCUMENTO_PATTERN =
-            Pattern.compile(DOCUMENTO_PATRON);
+    
 
 	
 	public static <T> T requeridoNoNull(T obj, String field) {
@@ -45,6 +53,21 @@ public class ValidationUtils {
 	            throw new DomainExcepcion(field + " no tiene un formato válido");
 	        }
 	        return email;
+	    }
+	 
+	 public static Long requiredValidarNit(Long nit, String nombreCampo) {
+	        
+	        if (nit == null) {
+	            throw new DomainExcepcion(nombreCampo + " es requerido.");
+	        }
+	        
+	        String nitString = String.valueOf(nit);
+	        
+	        if (!document_valid.matcher(nitString).matches()) {
+	            throw new DomainExcepcion(nombreCampo + " no tiene un formato numérico válido (solo dígitos positivos).");
+	        }
+	        
+	        return nit;
 	    }
 	 
 	
@@ -86,6 +109,17 @@ public class ValidationUtils {
 		    return fechaNacimiento;
 		}
 
-
+	 public static String requiredValidarNombre(String name, String nombreCampo) {
+	        
+	        if (name == null || name.trim().isEmpty()) {
+	            throw new DomainExcepcion(nombreCampo + " es requerido.");
+	        }
+	        
+	        if (!name_valid.matcher(name).matches()) {
+	            throw new DomainExcepcion(nombreCampo + " no es válido. Debe contener letras y no puede ser solo números.");
+	        }
+	        
+	        return name;
+	    }
 
 }

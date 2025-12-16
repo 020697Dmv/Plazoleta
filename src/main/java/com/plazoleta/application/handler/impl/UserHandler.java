@@ -9,9 +9,9 @@ import com.plazoleta.application.dto.response.StringResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import com.plazoleta.application.handler.IUserHandler;
-import com.plazoleta.application.mapper.IMensajeRespuestaMapper;
-import com.plazoleta.application.mapper.IUsuarioRequestMapper;
-import com.plazoleta.application.mapper.IUsuarioResponseMapper;
+import com.plazoleta.application.mapper.IMensaggeResponseMapper;
+import com.plazoleta.application.mapper.IUserRequestMapper;
+import com.plazoleta.application.mapper.IUserResponseMapper;
 import com.plazoleta.domain.api.IUserServicePort;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.User;
@@ -22,9 +22,9 @@ import com.plazoleta.domain.model.User;
 public class UserHandler implements  IUserHandler {
 	
 	public final IUserServicePort usuarioServicioPort;
-	public final IUsuarioRequestMapper usuarioRequestMapper;
-	public final IUsuarioResponseMapper usuarioResponseMapper;
-	public final IMensajeRespuestaMapper StringMessageResponse;
+	public final IUserRequestMapper usuarioRequestMapper;
+	public final IUserResponseMapper usuarioResponseMapper;
+	public final IMensaggeResponseMapper StringMessageResponse;
 	
 	@Override
 	public StringResponseDto guardarUsuario(UserRequesteDto usuarioRequesteDto) {
