@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.plazoleta.application.dto.request.UserRequesteDto;
 import com.plazoleta.application.dto.response.StringResponseDto;
 import com.plazoleta.application.handler.IUserHandler;
+import com.plazoleta.domain.model.MessageResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,8 +32,8 @@ public class UsuarioRestController {
             @ApiResponse(responseCode = "409", description = "User already exists", content = @Content)
     })
     @PostMapping("/saveUser")
-    public ResponseEntity<StringResponseDto> saveUser(@RequestBody UserRequesteDto usuarioRequesteDto) {
-        return new ResponseEntity<>(usuarioHandler.guardarUsuario(usuarioRequesteDto), HttpStatus.CREATED);
+    public ResponseEntity<MessageResponse> saveUser(@RequestBody UserRequesteDto usuarioRequesteDto) {
+        return new ResponseEntity<>(usuarioHandler.saveUser(usuarioRequesteDto), HttpStatus.CREATED);
     }
 	
 }

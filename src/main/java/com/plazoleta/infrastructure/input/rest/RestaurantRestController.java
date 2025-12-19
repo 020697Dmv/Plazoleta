@@ -12,6 +12,7 @@ import com.plazoleta.application.dto.request.UserRequesteDto;
 import com.plazoleta.application.dto.response.StringResponseDto;
 import com.plazoleta.application.handler.IRestaurantHandler;
 import com.plazoleta.application.handler.IUserHandler;
+import com.plazoleta.domain.model.MessageResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,7 +33,7 @@ public class RestaurantRestController {
             @ApiResponse(responseCode = "409", description = "Restaurant already exists", content = @Content)
     })
     @PostMapping("/saveRestaurant")
-    public ResponseEntity<StringResponseDto> saveRestaurant(@RequestBody RestaurantRequestDto restaurantRequestDto) {
+    public ResponseEntity<MessageResponse> saveRestaurant(@RequestBody RestaurantRequestDto restaurantRequestDto) {
         return new ResponseEntity<>(restaurantHandler.saveRestaurant(restaurantRequestDto), HttpStatus.CREATED);
     }
 

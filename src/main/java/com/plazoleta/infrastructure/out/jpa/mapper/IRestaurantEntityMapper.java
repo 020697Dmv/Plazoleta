@@ -15,6 +15,6 @@ public interface IRestaurantEntityMapper {
 	@Mapping(target = "propietario", ignore = true)
 	RestaurantEntity  toEntity(Restaurant restaurant);
 	
-    @Mapping(source = "propietario.id", target = "identityDocumentOwner")
+    @Mapping(source = "propietario.id", target = "identity_document_owner")
 	Restaurant toRestaurant(RestaurantEntity  restaurantEntity);
 }

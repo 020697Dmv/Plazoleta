@@ -27,10 +27,10 @@ public class UserHandler implements  IUserHandler {
 	public final IMensaggeResponseMapper StringMessageResponse;
 	
 	@Override
-	public StringResponseDto guardarUsuario(UserRequesteDto usuarioRequesteDto) {
+	public MessageResponse saveUser(UserRequesteDto usuarioRequesteDto) {
 		User usuario=usuarioRequestMapper.aUsuario(usuarioRequesteDto);
-		MessageResponse messageResponse=usuarioServicioPort.guardarUsuario(usuario);
-		return StringMessageResponse.toResponse(messageResponse);
+		MessageResponse messageResponse=usuarioServicioPort.saveUser(usuario);
+		return messageResponse;
 	}
 
 }

@@ -11,6 +11,8 @@ import com.plazoleta.domain.spi.IUserPersistencePort;
 import com.plazoleta.domain.validacion.RestaurantValidation;
 import com.plazoleta.infrastructure.excepcion.UserNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
+import com.plazoleta.infrastructure.excepcion.RestaurantExistExcepcion;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,13 +26,15 @@ public class RestaurantUseCase  implements IRestaurantServicePort{
 
 	
 	@Override
-	public MessageResponse guardarRestaurant(Restaurant restaurant) {
+	public MessageResponse saveRestaurant(Restaurant restaurant) {
 
 	    User owner = userPersistencePort
 	            .findById(restaurant.getIdentity_document_owner())
-	            .orElseThrow(UserNotFoundException::new);	    
+	            .orElseThrow(UserNotFoundException::new);	       
+	    restaurantPersistencePort.findById(restaurant.getNit())
+	            .ifPresent(r -> { throw new RestaurantExistExcepcion(); });
 	    RestaurantValidation.validateRestaurant(restaurant);	    
-	    Restaurant restaurantSave =restaurantPersistencePort.saveRestaurant(restaurant,owner);
+	    Restaurant restaurantSave = restaurantPersistencePort.saveRestaurant(restaurant, owner);
 	    return new MessageResponse(
 	            String.format("Restaurant created with id %d", restaurantSave.getNit())
 	    );

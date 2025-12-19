@@ -5,6 +5,6 @@ import com.plazoleta.domain.model.Restaurant;
 
 public interface IRestaurantServicePort {
 
-	MessageResponse guardarRestaurant(Restaurant restaurant);
+	MessageResponse saveRestaurant(Restaurant restaurant);
 
 }
