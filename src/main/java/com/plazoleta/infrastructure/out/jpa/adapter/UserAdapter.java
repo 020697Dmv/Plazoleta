@@ -23,11 +23,6 @@ public class UserAdapter implements IUserPersistencePort  {
 	
 	@Override
 	public User saveUser(User user) {
-
-		if(usuarioRepository.findById(user.getId()).isPresent()) {
-			 throw new UserExistExcepcion();			
-		}
-		user.setRole("PROPIETARIO");
 		UserEntity userEntity=usuarioRepository.save(usuarioEntidadMapeo.toEntity(user));
 		return usuarioEntidadMapeo.toUser(userEntity);
 	}

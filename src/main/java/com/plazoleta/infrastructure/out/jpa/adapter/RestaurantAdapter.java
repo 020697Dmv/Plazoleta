@@ -1,5 +1,7 @@
 package com.plazoleta.infrastructure.out.jpa.adapter;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.plazoleta.domain.model.Restaurant;
@@ -26,14 +28,17 @@ public class RestaurantAdapter  implements IRestaurantPersistencePort{
 
 	@Override
 	public Restaurant saveRestaurant(Restaurant restaurant, User owner) {	    
-	    if(restaurantRepository.findById(restaurant.getNit()).isPresent()) {		
-	        throw new RestaurantExistExcepcion();
-	    }
 		UserEntity userEntity = userEntityMapper.toEntity(owner);     
 	    RestaurantEntity restaurantEntity = restaurantEntityMapper.toEntity(restaurant);     	    
 	    restaurantEntity.setPropietario(userEntity); 	    
 	    RestaurantEntity savedEntity = restaurantRepository.save(restaurantEntity); 	    
 	    return restaurantEntityMapper.toRestaurant(savedEntity);
+	}
+
+	@Override
+	public Optional<Restaurant> findById(Long id) {
+		return restaurantRepository.findById(id)
+				.map(restaurantEntityMapper::toRestaurant);
 	}
 	
 	
