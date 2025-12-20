@@ -5,8 +5,9 @@ import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IUserPersistencePort;
 import com.plazoleta.domain.validacion.UserValidation;
-import com.plazoleta.infrastructure.excepcion.RestaurantExistExcepcion;
-import com.plazoleta.infrastructure.excepcion.UserNotFoundException;
+import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
+import com.plazoleta.infrastructure.exception.UserAlreadyExistException;
+import com.plazoleta.infrastructure.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,10 @@ public class UserUseCase  implements IUserServicePort {
 
 	@Override
 	public MessageResponse saveUser(User user) {
-			
-		userPersistencePort.findById(user.getId()).
-		ifPresent(r -> { throw new UserNotFoundException(); });
+		
+		if(userPersistencePort.findById(user.getId()).isPresent()) {
+			throw new UserAlreadyExistException();
+		}
 		UserValidation.validateUser(user);
 		user.setRole("PROPIETARIO");
 		User saveUsers=userPersistencePort.saveUser(user);

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.plazoleta.domain.model.Restaurant;
 import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
-import com.plazoleta.infrastructure.excepcion.RestaurantExistExcepcion;
+import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
 import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
