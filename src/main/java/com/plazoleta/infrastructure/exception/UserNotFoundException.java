@@ -1,4 +1,4 @@
-package com.plazoleta.infrastructure.excepcion;
+package com.plazoleta.infrastructure.exception;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException() {

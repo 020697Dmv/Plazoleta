@@ -2,11 +2,12 @@ package com.plazoleta.infrastructure.out.jpa.adapter;
 
 import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IUserPersistencePort;
-import com.plazoleta.infrastructure.excepcion.UserExistExcepcion;
+import com.plazoleta.infrastructure.exception.UserAlreadyExistException;
+import com.plazoleta.infrastructure.exception.UserNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IUserEntityMapper;
 import com.plazoleta.infrastructure.out.jpa.repository.IUserRepository;
-import com.plazoleta.infrastructure.excepcion.UserNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;

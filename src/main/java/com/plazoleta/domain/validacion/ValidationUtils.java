@@ -1,7 +1,8 @@
 package com.plazoleta.domain.validacion;
 
 import com.plazoleta.domain.exception.DomainExcepcion;
-import com.plazoleta.infrastructure.excepcion.UserExistExcepcion;
+import com.plazoleta.infrastructure.exception.UserAlreadyExistException;
+
 import java.util.regex.Pattern;
 import java.time.LocalDate;
 import java.time.Period;
