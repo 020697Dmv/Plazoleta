@@ -42,5 +42,16 @@ public class PlateAdapter implements IPlatePersistencePort {
 		return plateRepository.findById(id).map(plateEntityMapper::toPlate);
 	}
 
+	@Override
+	public Plate updatePlate(PlateEntity plate) {
+		PlateEntity saveEntity = plateRepository.save(plate);
+		return plateEntityMapper.toPlate(saveEntity);
+	}
+
+	@Override
+	public Optional<PlateEntity> findyByIdEntity(Long id) {
+		return plateRepository.findById(id);
+	}
+
 
 }

@@ -1,5 +1,7 @@
 package com.plazoleta.domain.usecase;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
@@ -13,6 +15,7 @@ import com.plazoleta.domain.spi.IUserPersistencePort;
 import com.plazoleta.domain.validacion.PlateValidation;
 import com.plazoleta.infrastructure.exception.PlateNotFoundException;
 import com.plazoleta.infrastructure.exception.RestaurantNotFoundException;
+import com.plazoleta.infrastructure.out.jpa.entity.PlateEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,12 +35,19 @@ public class PlateUseCase implements IPlateServicePort{
 		PlateValidation.ValidatePlate(plate);
 		Plate plateSave=platePersistencePort.savePlate(plate, restaurantOwner);
 		return new MessageResponse(
-	            "Plate created with  %"+ plateSave.getNamePlate());
+	            "Plate created with name %"+ plateSave.getNamePlate());
 	}
 
 	@Override
 	public MessageResponse updatePlate(UpdatePlateRequestDto updatePlateRequestDto) {
-		return null;
+		PlateEntity plateObject=platePersistencePort.findyByIdEntity(updatePlateRequestDto.getId())
+				.orElseThrow(PlateNotFoundException::new);
+		plateObject.setPrice(updatePlateRequestDto.getPrice());
+		plateObject.setDescription(updatePlateRequestDto.getDescription());
+		PlateValidation.ValidatePlateEntity(plateObject);
+		Plate plateSave=platePersistencePort.updatePlate(plateObject);
+		return new MessageResponse(
+	            "Plate update with name %"+ plateSave.getNamePlate());
 	}
 
 }
