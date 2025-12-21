@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.HttpStatus;
 
+import com.plazoleta.infrastructure.exception.PlateNotFoundException;
 import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
 import com.plazoleta.infrastructure.exception.UserAlreadyExistException;
 import com.plazoleta.infrastructure.exception.UserNotFoundException;
@@ -37,6 +38,13 @@ public class ControllerAdvisor {
     		RestaurantAlreadyExistException ignoredRestaurantAlreadyExistsException) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.RESTAURANT_ALREADY_EXISTS.getMessage()));
+    }
+    
+    @ExceptionHandler(PlateNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleRestaurantNotFoundException(
+    		PlateNotFoundException lateNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.RESTAURANT_NOT_FOUND.getMessage()));
     }
     
 }
