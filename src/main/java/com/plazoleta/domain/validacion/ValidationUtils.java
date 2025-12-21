@@ -24,7 +24,7 @@ public class ValidationUtils {
     
     private static final String NOMBRE_RESTAURANTE_PATRON =
             "^(?=.*[a-zA-Z])[a-zA-Z0-9\\s]+$";
-    
+      
     private static final Pattern name_valid =
             Pattern.compile(NOMBRE_RESTAURANTE_PATRON);
     
@@ -35,8 +35,6 @@ public class ValidationUtils {
     
     private static final Pattern TELEFONO_PATTERN =
             Pattern.compile(TELEFONO_PATRON);
-
-    
 
 	
 	public static <T> T requeridoNoNull(T obj, String field) {
@@ -84,6 +82,16 @@ public class ValidationUtils {
 	        }
 	        return telefono;
 	    }
+	 
+	 public static int requeridoPriceValido(int price, String field) {
+		    if (price <= 0) {
+		        throw new DomainExcepcion(field + " debe ser un número entero positivo mayor a 0");
+		    }
+		    if (price > 999999999) {
+		        throw new DomainExcepcion(field + " excede el valor permitido");
+		    }
+		    return price;
+		}
 
 	 public static Long requeridoDocumentoValido(Long documento, String field) {
 		    if (documento == null) {
