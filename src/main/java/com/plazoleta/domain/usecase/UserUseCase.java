@@ -8,6 +8,7 @@ import com.plazoleta.domain.validacion.UserValidation;
 import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
 import com.plazoleta.infrastructure.exception.UserAlreadyExistException;
 import com.plazoleta.infrastructure.exception.UserNotFoundException;
+import com.plazoleta.infrastructure.out.jpa.util.Role;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class UserUseCase  implements IUserServicePort {
 			throw new UserAlreadyExistException();
 		}
 		UserValidation.validateUser(user);
-		user.setRole("PROPIETARIO");
+		user.setRole(Role.OWNER);
 		User saveUsers=userPersistencePort.saveUser(user);
         return new MessageResponse(String.format("User created with id %d", saveUsers.getId()));
 	}

@@ -1,4 +1,4 @@
-package com.plazoleta.domain.config;
+ package com.plazoleta.domain.config;
 
 import com.plazoleta.domain.api.IUserServicePort;
 import com.plazoleta.domain.spi.IUserPersistencePort;

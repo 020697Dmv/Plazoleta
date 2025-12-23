@@ -1,0 +1,23 @@
+package com.plazoleta.infrastructure.out.jpa.util;
+
+public enum RolePermission {
+	
+	READ_ALL_PLATE,
+	READ_ONE_PLATE,
+	CREATE_ONE_PLATE,
+	DISABLE_ONE_PLATE,
+
+	
+	READ_ALL_RESTAURANT,
+	READ_ONE_RESTAURANT,
+	CREATE_ONE_RESTAURANT,
+	DISABLE_ONE_RESTAURANT,
+	
+	
+	READ_ALL_USERS,
+	READ_ONE_USERS,
+	CREATE_ONE_USERS,
+	DISABLE_ONE_USERS,
+	
+
+}

@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import java.time.LocalDate;
 
+import com.plazoleta.infrastructure.out.jpa.util.Role;
+
 public class User {
 	
 	
@@ -21,7 +23,7 @@ public class User {
 	
 	private String password;
 	
-	private String role;
+	private Role role;
 	
 	
 
@@ -32,7 +34,7 @@ public class User {
 	
 
 	public User(Long id, String name, String lastname, String phone, LocalDate birthdate, String email,
-			String password, String role) {
+			String password, Role role) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -130,17 +132,18 @@ public class User {
 
 
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
 
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 
-	
+
+
 	
 	
 

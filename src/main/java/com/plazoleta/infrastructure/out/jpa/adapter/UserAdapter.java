@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -20,10 +22,13 @@ public class UserAdapter implements IUserPersistencePort  {
 	
 	private final IUserRepository usuarioRepository;
 	private final IUserEntityMapper usuarioEntidadMapeo;
-
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public User saveUser(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		UserEntity userEntity=usuarioRepository.save(usuarioEntidadMapeo.toEntity(user));
 		return usuarioEntidadMapeo.toUser(userEntity);
 	}
