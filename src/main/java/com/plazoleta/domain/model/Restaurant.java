@@ -12,20 +12,20 @@ public class Restaurant {
 	
 	private String urlLogo;
 
-	private Long identity_document_owner;
+	private Long identityDocumentOwner;
 
 	public Restaurant() {
 	}
 	
 	public Restaurant(Long nit, String name, String address, String phone, String urlLogo,
-			Long identity_document_owner) {
+			Long identityDocumentOwner) {
 		super();
 		this.nit = nit;
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
 		this.urlLogo = urlLogo;
-		this.identity_document_owner = identity_document_owner;
+		this.identityDocumentOwner = identityDocumentOwner;
 	}
 
 
@@ -71,11 +71,11 @@ public class Restaurant {
 	}
 
 	public Long getIdentity_document_owner() {
-		return identity_document_owner;
+		return identityDocumentOwner;
 	}
 
-	public void setIdentity_document_owner(Long identity_document_owner) {
-		this.identity_document_owner = identity_document_owner;
+	public void setIdentity_document_owner(Long identityDocumentOwner) {
+		this.identityDocumentOwner = identityDocumentOwner;
 	}
 
 	
