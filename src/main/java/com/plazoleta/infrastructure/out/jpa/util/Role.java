@@ -23,8 +23,13 @@ public enum Role {
 				RolePermission.READ_ALL_PLATE,
 		        RolePermission.READ_ONE_PLATE,
 		        RolePermission.CREATE_ONE_PLATE,
-		        RolePermission.DISABLE_ONE_PLATE
-		    ));
+		        RolePermission.DISABLE_ONE_PLATE,
+		        RolePermission.CREATE_ONE_EMPLOYEE,
+		        RolePermission.READ_ONE_EMPLOYEE
+		    )),
+		EMPLOYEE((Arrays.asList(	
+				
+		    )));
 	
 	  private List<RolePermission> permissions;
 

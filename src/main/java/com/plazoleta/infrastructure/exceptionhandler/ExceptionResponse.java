@@ -6,7 +6,9 @@ public enum ExceptionResponse {
     RESTAURANT_NOT_FOUND("No Restaurant was found"),
     RESTAURANT_ALREADY_EXISTS("There is already a Restaurant with that ID"),
     PLATE_NOT_FOUND("No Plate was found"),
-    PLATE_ALREADY_EXISTS("There is already a Plate with that ID");
+    PLATE_ALREADY_EXISTS("There is already a Plate with that ID"),
+    EMPLOYEE_NOT_FOUND("No Employee was found"),
+    EMPLOYEE_ALREADY_EXISTS("There is already a Employee with that ID");
 
     private final String message;
 
