@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.plazoleta.application.dto.request.EnablePlateResquestDto;
 import com.plazoleta.application.dto.request.PlateRequestDto;
 import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
 import com.plazoleta.application.dto.request.UserRequesteDto;
@@ -45,5 +46,16 @@ public class PlateRestController {
     public ResponseEntity<MessageResponse> updatePlate(@RequestBody UpdatePlateRequestDto updatePlateRequestDto) {
         return new ResponseEntity<>(plateHandler.updatePlate(updatePlateRequestDto), HttpStatus.CREATED);
     }
+	
+	@Operation(summary = "Update Active a Plate")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Plate update Active", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Plate already exists", content = @Content)
+    })
+    @PostMapping("/updateActivePlate")
+    public ResponseEntity<MessageResponse> updateActivePlate(@RequestBody EnablePlateResquestDto enablePlateResquestDto) {
+        return new ResponseEntity<>(plateHandler.updateActivePlate(enablePlateResquestDto), HttpStatus.CREATED);
+    }
+
 
 }
