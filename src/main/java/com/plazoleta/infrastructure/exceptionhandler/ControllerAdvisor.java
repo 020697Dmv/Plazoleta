@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.HttpStatus;
 
+import com.plazoleta.infrastructure.exception.EmployeeAlreadyExistException;
+import com.plazoleta.infrastructure.exception.EmployeeNotFoundException;
 import com.plazoleta.infrastructure.exception.PlateAlreadyExistException;
 import com.plazoleta.infrastructure.exception.PlateNotFoundException;
 import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
@@ -55,4 +57,17 @@ public class ControllerAdvisor {
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.PLATE_ALREADY_EXISTS.getMessage()));
     }
     
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleAlreadyExistsException(
+    		EmployeeNotFoundException employeeNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.EMPLOYEE_NOT_FOUND.getMessage()));
+    }
+    
+    @ExceptionHandler(EmployeeAlreadyExistException.class)
+    public ResponseEntity<Map<String, String>> handleRestaurantNotFoundException(
+    		EmployeeAlreadyExistException employeeAlreadyExistException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.EMPLOYEE_ALREADY_EXISTS.getMessage()));
+    }
 }

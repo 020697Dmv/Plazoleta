@@ -21,6 +21,7 @@ public class SecurityConfig {
 	            .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 	            .authorizeHttpRequests(auth -> auth
 	            	    .requestMatchers("/api/v1/Auth/login").permitAll()
+	            	    .requestMatchers("/api/v1/Employee/saveEmployee").hasAuthority("CREATE_ONE_EMPLOYEE")
 	            	    .requestMatchers("/api/v1/User/saveUser").hasAuthority("CREATE_ONE_USERS")
 	                    .requestMatchers("/api/v1/User/**").hasAuthority("READ_ALL_USERS")
 	                    .requestMatchers("/api/v1/Restaurant/saveRestaurant").hasAuthority("CREATE_ONE_RESTAURANT")

@@ -22,13 +22,11 @@ import com.plazoleta.domain.model.User;
 public class UserHandler implements  IUserHandler {
 	
 	public final IUserServicePort usuarioServicioPort;
-	public final IUserRequestMapper usuarioRequestMapper;
-	public final IUserResponseMapper usuarioResponseMapper;
-	public final IMensaggeResponseMapper StringMessageResponse;
+	public final IUserRequestMapper userRequestMapper;
 	
 	@Override
 	public MessageResponse saveUser(UserRequesteDto usuarioRequesteDto) {
-		User usuario=usuarioRequestMapper.aUsuario(usuarioRequesteDto);
+		User usuario=userRequestMapper.aUsuario(usuarioRequesteDto);
 		MessageResponse messageResponse=usuarioServicioPort.saveUser(usuario);
 		return messageResponse;
 	}
