@@ -26,7 +26,5 @@ public class RestaurantUseCaseConfiguration {
 		return new RestaurantAdapter(restaurantRepository, userEntityMapper,restaurantEntityMapper);
 	}
 	
-	public IPlateServicePort  plateServicePort( IPlatePersistencePort platePersistencePort,IRestaurantPersistencePort restaurantPersistencePort) {
-		return new PlateUseCase(platePersistencePort, restaurantPersistencePort);
-	}
+	
 }
