@@ -1,5 +1,6 @@
 package com.plazoleta.domain.spi;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.plazoleta.domain.model.Restaurant;
@@ -11,5 +12,6 @@ public interface IRestaurantPersistencePort {
 	
 	Optional<Restaurant>  findById(Long id);
 
+	List<Restaurant> getAllRestaurants (int page, int size);
 
 }

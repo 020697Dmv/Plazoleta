@@ -1,8 +1,12 @@
 package com.plazoleta.application.handler.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.plazoleta.application.dto.request.PageRequestDto;
 import com.plazoleta.application.dto.request.RestaurantRequestDto;
+import com.plazoleta.application.dto.response.RestaurantPageResponseDto;
 import com.plazoleta.application.dto.response.StringResponseDto;
 import com.plazoleta.application.handler.IRestaurantHandler;
 import com.plazoleta.application.mapper.IMensaggeResponseMapper;
@@ -35,6 +39,14 @@ public class RestaurantHandler implements IRestaurantHandler{
 		MessageResponse  messageResponse=restaurantServicePort.saveRestaurant(restaurant);
 		return messageResponse;
 	}
+
+
+	@Override
+	public List<RestaurantPageResponseDto> getAllRestaurants(PageRequestDto pageRequestDto) {
+		List<Restaurant> restaurants=restaurantServicePort.getAllRestaurants(pageRequestDto);
+		
+		return restaurantResponseMapper.toResponseList(restaurants);
+		}
 	
 	
 	
