@@ -29,7 +29,7 @@ public class SecurityConfig {
 	                    .requestMatchers("/api/v1/Plate/savePlate").hasAuthority("CREATE_ONE_PLATE")
 	                    .requestMatchers("/api/v1/Plate/updatePlate").hasAuthority("CREATE_ONE_PLATE")
 	                    .requestMatchers("/api/v1/Plate/**").hasAuthority("READ_ALL_PLATE")
-	            	    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/h2-console/**").permitAll()
+	            	    .requestMatchers("/api/v1/Client/saveClient","/v3/api-docs/**", "/swagger-ui/**", "/h2-console/**").permitAll()
 	            	    .anyRequest().authenticated()
 	            	)
 	            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
