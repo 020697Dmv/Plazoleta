@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.HttpStatus;
 
+import com.plazoleta.infrastructure.exception.ClientAlreadyExistException;
+import com.plazoleta.infrastructure.exception.ClientNotFoundException;
 import com.plazoleta.infrastructure.exception.EmployeeAlreadyExistException;
 import com.plazoleta.infrastructure.exception.EmployeeNotFoundException;
 import com.plazoleta.infrastructure.exception.PlateAlreadyExistException;
@@ -69,5 +71,19 @@ public class ControllerAdvisor {
     		EmployeeAlreadyExistException employeeAlreadyExistException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.EMPLOYEE_ALREADY_EXISTS.getMessage()));
+    }
+    
+    @ExceptionHandler(ClientAlreadyExistException.class)
+    public ResponseEntity<Map<String, String>> handleClientNotFoundException(
+    		ClientAlreadyExistException clientAlreadyExistException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.CLIENT_ALREADY_EXISTS.getMessage()));
+    }
+    
+    @ExceptionHandler(ClientNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleRestaurantNotFoundException(
+    		ClientNotFoundException employeeAlreadyExistException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.CLIENT_NOT_FOUND.getMessage()));
     }
 }

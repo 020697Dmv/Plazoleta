@@ -29,7 +29,10 @@ public enum Role {
 		    )),
 		EMPLOYEE((Arrays.asList(	
 				
-		    )));
+		    ))),
+		CLIENT((Arrays.asList(	
+				 RolePermission.CREATE_ONE_CLIENT
+			    )));
 	
 	  private List<RolePermission> permissions;
 
