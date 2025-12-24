@@ -1,10 +1,12 @@
 package com.plazoleta.domain.usecase;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.plazoleta.application.dto.request.EnablePlateResquestDto;
+import com.plazoleta.application.dto.request.SearchPlateRequestDto;
 import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
 import com.plazoleta.domain.api.IPlateServicePort;
 import com.plazoleta.domain.model.MessageResponse;
@@ -76,6 +78,12 @@ public class PlateUseCase implements IPlateServicePort{
 	    } else {
 	        throw new UserNotOwnerOfRestaurantException(); 
 	    }
+	}
+
+	@Override
+	public List<Plate> toResponseList(SearchPlateRequestDto searchPlateRequestDto) {
+
+		return platePersistencePort.toResponseList(searchPlateRequestDto);
 	}
 
 }

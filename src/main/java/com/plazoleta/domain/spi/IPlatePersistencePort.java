@@ -1,7 +1,9 @@
 package com.plazoleta.domain.spi;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.plazoleta.application.dto.request.SearchPlateRequestDto;
 import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Plate;
@@ -17,5 +19,7 @@ public interface IPlatePersistencePort {
 	Plate updatePlate(PlateEntity plate);
 	
 	Optional<PlateEntity> findyByIdEntity(Long id);
+	
+	List<Plate> toResponseList(SearchPlateRequestDto searchPlateRequestDto);
 
 }

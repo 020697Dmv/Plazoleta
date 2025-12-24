@@ -1,9 +1,12 @@
 package com.plazoleta.application.handler.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.plazoleta.application.dto.request.EnablePlateResquestDto;
 import com.plazoleta.application.dto.request.PlateRequestDto;
+import com.plazoleta.application.dto.request.SearchPlateRequestDto;
 import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
 import com.plazoleta.application.handler.IPlateHandler;
 import com.plazoleta.application.mapper.IMensaggeResponseMapper;
@@ -50,6 +53,14 @@ public class PlateHandler implements IPlateHandler{
 	public MessageResponse updateActivePlate(EnablePlateResquestDto enablePlateResquestDto) {
 		MessageResponse messageResponse=plateServicePort.updateActivePlate(enablePlateResquestDto);
 		return messageResponse;
+	}
+
+
+	@Override
+	public List<Plate> toResponseListPlates(SearchPlateRequestDto searchPlateRequestDto) {
+		List<Plate> plates=plateServicePort.toResponseList(searchPlateRequestDto);
+		
+		return plates;
 	}
 	
 	
