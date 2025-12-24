@@ -15,6 +15,7 @@ import com.plazoleta.infrastructure.exception.EmployeeNotFoundException;
 import com.plazoleta.infrastructure.exception.PlateAlreadyExistException;
 import com.plazoleta.infrastructure.exception.PlateNotFoundException;
 import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
+import com.plazoleta.infrastructure.exception.RestaurantsNotExistsException;
 import com.plazoleta.infrastructure.exception.UserAlreadyExistException;
 import com.plazoleta.infrastructure.exception.UserNotFoundException;
 
@@ -85,5 +86,12 @@ public class ControllerAdvisor {
     		ClientNotFoundException employeeAlreadyExistException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.CLIENT_NOT_FOUND.getMessage()));
+    }
+    
+    @ExceptionHandler(RestaurantsNotExistsException.class)
+    public ResponseEntity<Map<String, String>> handleRestaurantNotExistsException(
+    		RestaurantsNotExistsException restaurantsNotExistsException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.RESTAURANT_NOT_EXIST.getMessage()));
     }
 }
