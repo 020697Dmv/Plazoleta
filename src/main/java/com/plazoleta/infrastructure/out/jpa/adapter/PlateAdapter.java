@@ -1,13 +1,20 @@
 package com.plazoleta.infrastructure.out.jpa.adapter;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.plazoleta.application.dto.request.SearchPlateRequestDto;
 import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
 import com.plazoleta.domain.model.Plate;
 import com.plazoleta.domain.model.Restaurant;
 import com.plazoleta.domain.spi.IPlatePersistencePort;
+import com.plazoleta.infrastructure.exception.PlateNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.PlateEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IPlateEntityMapper;
@@ -51,6 +58,30 @@ public class PlateAdapter implements IPlatePersistencePort {
 	@Override
 	public Optional<PlateEntity> findyByIdEntity(Long id) {
 		return plateRepository.findById(id);
+	}
+
+	@Override
+	public List<Plate> toResponseList(SearchPlateRequestDto searchPlateRequestDto) {
+		
+		Pageable pageableResponse = PageRequest.of(searchPlateRequestDto.getPageRequestDto().getPage(), searchPlateRequestDto.getPageRequestDto().getSize());
+		
+		Page<PlateEntity> platePage;
+		if(searchPlateRequestDto.getCategory() == null ||searchPlateRequestDto.getCategory().isEmpty()) {
+		  
+			platePage= plateRepository.findByRestaurantNit(searchPlateRequestDto.getIdRestaurant(), pageableResponse);
+		} else {
+			
+			 
+			platePage=  plateRepository.findByRestaurantNitAndCategory(searchPlateRequestDto.getIdRestaurant()
+					 ,searchPlateRequestDto.getCategory(),pageableResponse);
+		}
+		
+		if (platePage.isEmpty()) {
+	        throw new PlateNotFoundException();
+	    }
+		
+		return platePage.map(plateEntityMapper::toPlate).getContent();
+		
 	}
 
 

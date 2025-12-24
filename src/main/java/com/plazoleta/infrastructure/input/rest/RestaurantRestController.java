@@ -46,7 +46,7 @@ public class RestaurantRestController {
         return new ResponseEntity<>(restaurantHandler.saveRestaurant(restaurantRequestDto), HttpStatus.CREATED);
     }
 	
-	@GetMapping("/list")
+	@GetMapping("/listRestaurants")
 	public ResponseEntity<List<RestaurantPageResponseDto>> listRestaurants(
 	        @RequestParam(defaultValue = "0") int page,
 	        @RequestParam(defaultValue = "10") int size) {
