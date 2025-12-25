@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.HttpStatus;
 
-import com.plazoleta.infrastructure.exception.ClientAlreadyExistException;
-import com.plazoleta.infrastructure.exception.ClientNotFoundException;
-import com.plazoleta.infrastructure.exception.EmployeeAlreadyExistException;
-import com.plazoleta.infrastructure.exception.EmployeeNotFoundException;
+import com.plazoleta.infrastructure.exception.NotPermissionuserException;
 import com.plazoleta.infrastructure.exception.PlateAlreadyExistException;
 import com.plazoleta.infrastructure.exception.PlateNotFoundException;
 import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
@@ -60,38 +57,18 @@ public class ControllerAdvisor {
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.PLATE_ALREADY_EXISTS.getMessage()));
     }
     
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleAlreadyExistsException(
-    		EmployeeNotFoundException employeeNotFoundException) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.EMPLOYEE_NOT_FOUND.getMessage()));
-    }
-    
-    @ExceptionHandler(EmployeeAlreadyExistException.class)
-    public ResponseEntity<Map<String, String>> handleRestaurantNotFoundException(
-    		EmployeeAlreadyExistException employeeAlreadyExistException) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.EMPLOYEE_ALREADY_EXISTS.getMessage()));
-    }
-    
-    @ExceptionHandler(ClientAlreadyExistException.class)
-    public ResponseEntity<Map<String, String>> handleClientNotFoundException(
-    		ClientAlreadyExistException clientAlreadyExistException) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.CLIENT_ALREADY_EXISTS.getMessage()));
-    }
-    
-    @ExceptionHandler(ClientNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleRestaurantNotFoundException(
-    		ClientNotFoundException employeeAlreadyExistException) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.CLIENT_NOT_FOUND.getMessage()));
-    }
     
     @ExceptionHandler(RestaurantsNotExistsException.class)
     public ResponseEntity<Map<String, String>> handleRestaurantNotExistsException(
     		RestaurantsNotExistsException restaurantsNotExistsException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.RESTAURANT_NOT_EXIST.getMessage()));
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.USER_NOT_PERMISSION.getMessage()));
+    }
+    
+    @ExceptionHandler(NotPermissionuserException.class)
+    public ResponseEntity<Map<String, String>> handleNotPermissionsException(
+    		NotPermissionuserException notPermissionuserException) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.USER_NOT_PERMISSION.getMessage()));
     }
 }
