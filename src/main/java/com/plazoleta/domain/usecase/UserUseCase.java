@@ -26,7 +26,6 @@ public class UserUseCase  implements IUserServicePort {
 			throw new UserAlreadyExistException();
 		}
 		UserValidation.validateUser(user);
-		user.setRole(Role.OWNER);
 		User saveUsers=userPersistencePort.saveUser(user);
         return new MessageResponse(String.format("User created with id %d", saveUsers.getId()));
 	}

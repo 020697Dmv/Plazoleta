@@ -1,6 +1,7 @@
 package com.plazoleta.domain.validacion;
 
 import com.plazoleta.domain.model.User;
+import com.plazoleta.infrastructure.out.jpa.util.Role;
 
 import static com.plazoleta.domain.validacion.ValidationUtils.requeridoNoNull;
 import static com.plazoleta.domain.validacion.ValidationUtils.requeridoEmailValido;
@@ -23,7 +24,9 @@ public class UserValidation {
 		requeridoEmailValido(usuario.getEmail(),"Correo");
 		requeridoTelefonoValido(usuario.getPhone(),"Celular");
 		requeridoDocumentoValido(usuario.getId(),"Id");
-		requeridoMayorDeEdad(usuario.getBirthdate(),"Fecha de nacimiento");
+		if(usuario.getRole().equals(Role.ADMINISTRATOR)) {
+			requeridoMayorDeEdad(usuario.getBirthdate(),"Fecha de nacimiento");
+		}
 		
 	}
 }
