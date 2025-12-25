@@ -8,30 +8,18 @@ public enum Role {
 
 	
 	ADMINISTRATOR(Arrays.asList(
-			RolePermission.READ_ALL_USERS,
-	        RolePermission.READ_ONE_USERS,
-	        RolePermission.CREATE_ONE_USERS,
-	        RolePermission.DISABLE_ONE_USERS,
-
-	        RolePermission.READ_ALL_RESTAURANT,
-	        RolePermission.READ_ONE_RESTAURANT,
-	        RolePermission.CREATE_ONE_RESTAURANT,
-	        RolePermission.DISABLE_ONE_RESTAURANT
+			RolePermission.ADMINISTRATOR
 
 	    )),
 		OWNER(Arrays.asList(
-				RolePermission.READ_ALL_PLATE,
-		        RolePermission.READ_ONE_PLATE,
-		        RolePermission.CREATE_ONE_PLATE,
-		        RolePermission.DISABLE_ONE_PLATE,
-		        RolePermission.CREATE_ONE_EMPLOYEE,
-		        RolePermission.READ_ONE_EMPLOYEE
+				RolePermission.OWNER
 		    )),
 		EMPLOYEE((Arrays.asList(	
-				
+				RolePermission.EMPLOYEE
+
 		    ))),
 		CLIENT((Arrays.asList(	
-				 RolePermission.CREATE_ONE_CLIENT
+				 RolePermission.CLIENT
 			    )));
 	
 	  private List<RolePermission> permissions;

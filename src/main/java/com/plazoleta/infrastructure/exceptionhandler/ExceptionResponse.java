@@ -2,6 +2,7 @@ package com.plazoleta.infrastructure.exceptionhandler;
 
 public enum ExceptionResponse {
 	USER_NOT_FOUND("No User was found"),
+	USER_NOT_PERMISSION("You do not have permission to perform this action"),
     USER_ALREADY_EXISTS("There is already a user with that ID"),
     RESTAURANT_NOT_FOUND("No Restaurant was found"),
     RESTAURANT_NOT_EXIST("No EXIST Restaurants"),
