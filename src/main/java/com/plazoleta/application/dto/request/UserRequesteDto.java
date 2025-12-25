@@ -2,6 +2,8 @@ package com.plazoleta.application.dto.request;
 
 import java.time.LocalDate;
 
+import com.plazoleta.infrastructure.out.jpa.util.Role;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +25,7 @@ public class UserRequesteDto {
 	
 	private String password;
 	
+	private int role;
 
 
 }
