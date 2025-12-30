@@ -84,5 +84,11 @@ public class PlateAdapter implements IPlatePersistencePort {
 		
 	}
 
+	@Override
+	public Optional<PlateEntity> findById(Long id) {
+		return plateRepository.findById(id);
+
+	}
+
 
 }

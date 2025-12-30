@@ -55,6 +55,11 @@ public class RestaurantAdapter  implements IRestaurantPersistencePort{
 	            .getContent();
 	}
 
+	@Override
+	public Optional<RestaurantEntity> findByIdEntity(Long id) {
+		return restaurantRepository.findById(id);
+	}
+
 	
 	
 	
