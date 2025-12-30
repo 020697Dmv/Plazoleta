@@ -21,5 +21,7 @@ public interface IPlatePersistencePort {
 	Optional<PlateEntity> findyByIdEntity(Long id);
 	
 	List<Plate> toResponseList(SearchPlateRequestDto searchPlateRequestDto);
+	
+	Optional<PlateEntity> findById(Long id);
 
 }

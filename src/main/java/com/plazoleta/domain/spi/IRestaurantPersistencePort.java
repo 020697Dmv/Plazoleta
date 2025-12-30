@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.plazoleta.domain.model.Restaurant;
 import com.plazoleta.domain.model.User;
+import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 
 public interface IRestaurantPersistencePort {
 
@@ -13,5 +14,8 @@ public interface IRestaurantPersistencePort {
 	Optional<Restaurant>  findById(Long id);
 
 	List<Restaurant> getAllRestaurants (int page, int size);
+
+	
+	Optional<RestaurantEntity>  findByIdEntity(Long id);
 
 }
