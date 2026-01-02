@@ -16,22 +16,21 @@ public class Orders {
 	    private LocalDateTime date;
 
 	    private String status;
+	    
+	    private Long nit;
 
 		public Orders() {
 			super();
 		}
-		
-		
 
-		public Orders(Long id, Long clientId, LocalDateTime date, String status) {
+		public Orders(Long id, Long clientId, LocalDateTime date, String status, Long nit) {
 			super();
 			this.id = id;
 			this.clientId = clientId;
 			this.date = date;
 			this.status = status;
+			this.nit = nit;
 		}
-
-
 
 		public Long getId() {
 			return id;
@@ -63,7 +62,18 @@ public class Orders {
 
 		public void setStatus(String status) {
 			this.status = status;
-		} 
+		}
+
+		public Long getNit() {
+			return nit;
+		}
+
+		public void setNit(Long nit) {
+			this.nit = nit;
+		}
+		
+		
+
 	    
 	    
 }

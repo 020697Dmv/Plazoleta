@@ -5,7 +5,7 @@ import com.plazoleta.domain.model.User;
 
 public interface IUserServicePort {
 	
-	MessageResponse saveUser(User usuario);
+	MessageResponse saveUser(User usuario, Long idRestaurant);
 
 
 }
