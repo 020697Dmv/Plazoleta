@@ -1,18 +1,25 @@
 package com.plazoleta.infrastructure.input.rest;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.plazoleta.application.dto.request.LoginRequetDto;
 import com.plazoleta.application.dto.request.OrderRequestDto;
+import com.plazoleta.application.dto.request.PageRequestDto;
+import com.plazoleta.application.dto.request.SearchPlateRequestDto;
 import com.plazoleta.application.dto.response.AuthRespondeDto;
 import com.plazoleta.application.handler.ILoginHandler;
 import com.plazoleta.application.handler.IOrderHandler;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Orders;
+import com.plazoleta.domain.model.Plate;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,6 +43,20 @@ public class OrdersController {
 	public ResponseEntity<MessageResponse> login(@RequestBody OrderRequestDto request ) {		
 		
 		return ResponseEntity.ok(orderHandler.saveOrder(request));
+	}
+	
+	@GetMapping("/listOrders")
+	public ResponseEntity<List<Orders>> listOrders(
+	        @RequestParam String status,
+	        @RequestParam Long idEmployee,
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "10") int size) {
+		
+		PageRequestDto pageRequestDto= new PageRequestDto();
+		pageRequestDto.setPage(page);
+		pageRequestDto.setSize(size);	
+	    	    
+	    return null;
 	}
 
 }

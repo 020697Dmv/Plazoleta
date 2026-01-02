@@ -26,6 +26,7 @@ public class UserRequesteDto {
 	private String password;
 	
 	private int role;
-
+	
+	private Long idRestaurant;
 
 }

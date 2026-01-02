@@ -44,44 +44,37 @@ public class OrderUseCase  implements IOrderServicePort{
 	public MessageResponse saveOrder(OrderRequestDto orderRequestDto) {
 	    Long clientId = orderRequestDto.getIdClient();
 
-	    // 1. Validar pedidos en proceso
 	    List<String> inProcessStatuses = List.of("PENDIENTE", "EN_PREPARACION", "LISTO");
 	    if (orderPersistencePort.existsByClientIdAndStatusIn(clientId, inProcessStatuses)) {
 	        return new MessageResponse("Ya tienes un pedido en curso.");
 	    }
 
-	    // 2. Obtener el restaurante directamente
 	    RestaurantEntity restaurant = restaurantPersistencePort.findByIdEntity(orderRequestDto.getRestaurantId())
 	            .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
-	    // 3. Crear encabezado de la orden
 	    OrderEntity orderEntity = new OrderEntity();
 	    orderEntity.setClientId(clientId);
 	    orderEntity.setDate(LocalDateTime.now());
-	    orderEntity.setStatus("PENDIENTE"); //
-	    orderEntity.setRestaurant(restaurant); // Asignación de FK restaurant_owner
+	    orderEntity.setStatus("PENDIENTE"); 
+	    orderEntity.setRestaurant(restaurant); 
 
-	    // 4. Mapear platos y cantidades
 	    List<OrderPlateEntity> plates = orderRequestDto.getPlates().stream().map(dto -> {
-	        // Buscar el plato real
 	        PlateEntity plate = platePersistencePort.findById(dto.getPlateId())
 	                .orElseThrow(() -> new RuntimeException("Plato no encontrado: " + dto.getPlateId()));
 
-	        // VALIDACIÓN HU: ¿El plato pertenece al restaurante del pedido?
 	        if (!plate.getRestaurant().getNit().equals(restaurant.getNit())) {
 	            throw new RuntimeException("El plato " + plate.getNamePlate() + " no pertenece a este restaurante.");
 	        }
 
 	        OrderPlateEntity plateEntry = new OrderPlateEntity();
-	        plateEntry.setPlate(plate); // ¡FUNDAMENTAL! Asigna la FK plate_id
+	        plateEntry.setPlate(plate); 
 	        plateEntry.setQuantity(dto.getQuantity()); //
-	        plateEntry.setOrder(orderEntity); // Vinculación para FK order_id
+	        plateEntry.setOrder(orderEntity); 
 	        return plateEntry;
 	    }).toList();
 
 	    orderEntity.setOrderPlates(plates);
 
-	    // 5. Guardar (gracias al CascadeType.ALL se guardan órdenes y platos)
 	    orderPersistencePort.saveOrder(orderEntity);
 
 	    return new MessageResponse(String.format("Order created with id Client %d", clientId));
