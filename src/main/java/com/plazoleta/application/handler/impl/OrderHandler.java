@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.plazoleta.application.dto.request.AssignOrderRequestDto;
 import com.plazoleta.application.dto.request.OrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.application.handler.IOrderHandler;
@@ -40,6 +41,14 @@ public class OrderHandler implements IOrderHandler{
 	public List<OrderListModel> orders(OrderStatusRequestDto orderStatusRequestDto) {
 		
 		return orderServicePort.orders(orderStatusRequestDto);
+	}
+
+
+
+	@Override
+	public List<OrderListModel> ordersAsignStatus(AssignOrderRequestDto assignOrderRequestDto) {
+
+		return orderServicePort.ordersAsignStatus(assignOrderRequestDto);
 	}
 	
 	

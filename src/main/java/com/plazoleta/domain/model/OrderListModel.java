@@ -14,5 +14,6 @@ public class OrderListModel {
     private LocalDateTime date;
     private String status;
     private String restaurantName; 
+    private Long idEmpleado;
     private List<OrderPlateDetails> details; 
 }

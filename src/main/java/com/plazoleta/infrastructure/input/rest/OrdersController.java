@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.plazoleta.application.dto.request.AssignOrderRequestDto;
 import com.plazoleta.application.dto.request.LoginRequetDto;
 import com.plazoleta.application.dto.request.OrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
@@ -51,12 +52,11 @@ public class OrdersController {
 	@GetMapping("/listOrders")
 	public ResponseEntity<List<OrderListModel>> listOrders(
 	        @RequestParam String status,
-	        @RequestParam Long idEmployee,
 	        @RequestParam(defaultValue = "0") int page,
 	        @RequestParam(defaultValue = "10") int size) {
 	    
 	    OrderStatusRequestDto orderDto = new OrderStatusRequestDto();
-	    orderDto.setIdEmployee(idEmployee);
+	    orderDto.setIdEmployee(null);
 	    orderDto.setStatus(status);
 	    
 	    PageRequestDto pageRequestDto = new PageRequestDto();
@@ -64,10 +64,28 @@ public class OrdersController {
 	    pageRequestDto.setSize(size);	
 	    orderDto.setPageRequestDto(pageRequestDto);
 	    
-	    // 1. Obtener la lista del handler (debe devolver DTOs, no Entities)
 	    List<OrderListModel> orders = orderHandler.orders(orderDto);
 	    
-	    // 2. Retornar correctamente envuelto en ResponseEntity
+	    return ResponseEntity.ok(orders);
+	}
+	
+	
+	@GetMapping("/listOrdersAsignStatus")
+	public ResponseEntity<List<OrderListModel>> listOrdersAsignStatus(
+	        @RequestParam Long orderId,
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "10") int size) {
+	    
+		AssignOrderRequestDto assignOrderRequestDto = new AssignOrderRequestDto();
+		assignOrderRequestDto.setOrderId(orderId);
+		
+	    PageRequestDto pageRequestDto = new PageRequestDto();
+	    pageRequestDto.setPage(page);
+	    pageRequestDto.setSize(size);	
+	    assignOrderRequestDto.setPageRequestDto(pageRequestDto);
+	    
+	    List<OrderListModel> orders = orderHandler.ordersAsignStatus(assignOrderRequestDto);
+	    
 	    return ResponseEntity.ok(orders);
 	}
 

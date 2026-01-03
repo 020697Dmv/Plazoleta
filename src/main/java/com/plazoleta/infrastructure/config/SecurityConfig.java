@@ -30,6 +30,7 @@ public class SecurityConfig {
 	                    .requestMatchers("/api/v1/Plate/updateActivePlate").hasAuthority("OWNER")
 	                    .requestMatchers("/api/v1/Plate/listPlates").hasAuthority("CLIENT")
 	                    .requestMatchers("/api/v1/Orders/order").hasAuthority("CLIENT")
+	                    .requestMatchers("/api/v1/Orders/listOrders").hasAuthority("EMPLOYEE")
 	                    .requestMatchers("/api/v1/Plate/**").hasAuthority("OWNER")
 	            	    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/h2-console/**").permitAll()
 	            	    .anyRequest().authenticated()

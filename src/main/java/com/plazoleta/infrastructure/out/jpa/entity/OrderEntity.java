@@ -53,6 +53,9 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "fk_restaurant_owner", referencedColumnName = "nit")
     private RestaurantEntity restaurant;
+    
+    @Column(name = "fk_employee_id") 
+    private Long fkEmployeeId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderPlateEntity> orderPlates;

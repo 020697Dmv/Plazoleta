@@ -1,24 +1,22 @@
 package com.plazoleta.infrastructure.out.jpa.adapter;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.plazoleta.application.dto.request.OrderRequestDto;
+import com.plazoleta.application.dto.request.AssignOrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.domain.model.OrderListModel;
-import com.plazoleta.domain.model.Orders;
 import com.plazoleta.domain.spi.IOrderPersistencePort;
-import com.plazoleta.infrastructure.exception.PlateNotFoundException;
+import com.plazoleta.infrastructure.exception.OrderNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IOrderEntityMapper;
-import com.plazoleta.infrastructure.out.jpa.mapper.IUserEntityMapper;
 import com.plazoleta.infrastructure.out.jpa.repository.IOrderPlateRepository;
 import com.plazoleta.infrastructure.out.jpa.repository.IOrderRepository;
-import com.plazoleta.infrastructure.out.jpa.repository.IUserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,12 +54,38 @@ public class OrderAdapter implements IOrderPersistencePort{
 	    );
 	    
 	    if (orderPage.isEmpty()) {
-	        throw new PlateNotFoundException();
+	        throw new OrderNotFoundException();
 	    }
 	    
 	    List<OrderListModel> roLista = orderEntityMapper.toOrderList(orderPage.getContent());
 	    
 	    return roLista; 
+	}
+
+	@Override
+	public List<OrderListModel> asignnedStatusAsign(AssignOrderRequestDto assignOrderRequestDto, Long idRestaurant,OrderEntity orderEntity) {
+		
+		Pageable pageableResponse = PageRequest.of(
+				assignOrderRequestDto.getPageRequestDto().getPage(),
+				assignOrderRequestDto.getPageRequestDto().getSize()
+		    );
+		 Page<OrderEntity> orderPage = orderRepository.findAllByRestaurantNit(
+			        idRestaurant, pageableResponse);
+		
+		 if (orderPage.isEmpty()) {
+		        throw new OrderNotFoundException();
+		    }
+		orderRepository.save(orderEntity);
+
+		 
+		List<OrderListModel> roLista = orderEntityMapper.toOrderList(orderPage.getContent());
+
+		return roLista;
+	}
+
+	@Override
+	public Optional<OrderEntity> findById(Long id,Long idRestaurant) {
+		return orderRepository.findByIdAndRestaurantNit(id,idRestaurant);
 	}
 
 }

@@ -18,11 +18,13 @@ unmappedTargetPolicy = ReportingPolicy.IGNORE,
 unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IOrderEntityMapper {
 	
-	@Mapping(target = "restaurant", ignore = true)
-	OrderEntity toEntity(Orders order);
+	@Mapping(source = "restaurant.nit", target = "nit")
+	@Mapping(source = "fkEmployeeId", target = "idEmpleado") 
+	Orders toOrder(OrderEntity orderEntity);
 
-    @Mapping(source = "restaurant.nit", target = "nit")
-    Orders toOrder(OrderEntity orderEntity);
+	@Mapping(target = "restaurant", ignore = true)
+	@Mapping(source = "idEmpleado", target = "fkEmployeeId") 
+	OrderEntity toEntity(Orders order);
     
     @Mappings({
         @Mapping(source = "id", target = "id"),
@@ -30,7 +32,8 @@ public interface IOrderEntityMapper {
         @Mapping(source = "date", target = "date"),
         @Mapping(source = "status", target = "status"),
         @Mapping(source = "restaurant.name", target = "restaurantName"),
-        @Mapping(source = "orderPlates", target = "details")
+        @Mapping(source = "orderPlates", target = "details"),
+        @Mapping(source = "fkEmployeeId", target = "idEmpleado")
     })
     OrderListModel toListModel(OrderEntity orderEntity);
 
