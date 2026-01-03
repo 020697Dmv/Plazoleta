@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.plazoleta.application.dto.request.OrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
+import com.plazoleta.domain.model.OrderListModel;
 import com.plazoleta.domain.model.Orders;
 import com.plazoleta.domain.spi.IOrderPersistencePort;
 import com.plazoleta.infrastructure.exception.PlateNotFoundException;
@@ -41,19 +42,26 @@ public class OrderAdapter implements IOrderPersistencePort{
 	}
 
 	@Override
-	public List<Orders> toResponseList(OrderStatusRequestDto orderStatusRequestDto) {
-		
-		Pageable pageableResponse= PageRequest.of(orderStatusRequestDto.getPageRequestDto().getPage(),orderStatusRequestDto.getPageRequestDto().getSize());
-		
-		Page<OrderEntity> orderPage;
-		
-		orderPage=orderRepository.findAllByStatus(orderStatusRequestDto.getStatus(), pageableResponse);
-		
-		if (orderPage.isEmpty()) {
-			//Ajustar
+	public List<OrderListModel> toResponseList(OrderStatusRequestDto orderStatusRequestDto, Long idRestaurant) {
+	    
+	    Pageable pageableResponse = PageRequest.of(
+	        orderStatusRequestDto.getPageRequestDto().getPage(),
+	        orderStatusRequestDto.getPageRequestDto().getSize()
+	    );
+	    
+	    Page<OrderEntity> orderPage = orderRepository.findAllByRestaurantNitAndStatus(
+	        idRestaurant, 
+	        orderStatusRequestDto.getStatus(), 
+	        pageableResponse
+	    );
+	    
+	    if (orderPage.isEmpty()) {
 	        throw new PlateNotFoundException();
 	    }
-		return orderPage.map(orderEntityMapper::toOrder).getContent();
+	    
+	    List<OrderListModel> roLista = orderEntityMapper.toOrderList(orderPage.getContent());
+	    
+	    return roLista; 
 	}
 
 }

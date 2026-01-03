@@ -7,13 +7,17 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.plazoleta.application.dto.request.OrderRequestDto;
+import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.domain.api.IOrderServicePort;
 import com.plazoleta.domain.model.MessageResponse;
+import com.plazoleta.domain.model.OrderListModel;
 import com.plazoleta.domain.model.Orders;
 import com.plazoleta.domain.model.Plate;
 import com.plazoleta.domain.model.Restaurant;
+import com.plazoleta.domain.model.RestaurantEmployee;
 import com.plazoleta.domain.spi.IOrderPersistencePort;
 import com.plazoleta.domain.spi.IPlatePersistencePort;
+import com.plazoleta.domain.spi.IRestaurantEmployeePersistencePort;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
 import com.plazoleta.domain.spi.IUserPersistencePort;
 import com.plazoleta.infrastructure.exception.PlateNotFoundException;
@@ -38,6 +42,9 @@ public class OrderUseCase  implements IOrderServicePort{
 	private final IPlateEntityMapper plateEntityMapper;
 	
 	private final IRestaurantPersistencePort restaurantPersistencePort;
+	
+	private final IRestaurantEmployeePersistencePort restaurantEmployeePersistencePort;
+
 
 	
 	@Override
@@ -68,7 +75,7 @@ public class OrderUseCase  implements IOrderServicePort{
 
 	        OrderPlateEntity plateEntry = new OrderPlateEntity();
 	        plateEntry.setPlate(plate); 
-	        plateEntry.setQuantity(dto.getQuantity()); //
+	        plateEntry.setQuantity(dto.getQuantity()); 
 	        plateEntry.setOrder(orderEntity); 
 	        return plateEntry;
 	    }).toList();
@@ -78,6 +85,17 @@ public class OrderUseCase  implements IOrderServicePort{
 	    orderPersistencePort.saveOrder(orderEntity);
 
 	    return new MessageResponse(String.format("Order created with id Client %d", clientId));
+	}
+
+
+	@Override
+	public List<OrderListModel> orders(OrderStatusRequestDto orderStatusRequestDto) {
+		
+		Optional<RestaurantEmployee>restaruantEmployeeId=restaurantEmployeePersistencePort.findByIdEmployee(orderStatusRequestDto.getIdEmployee());
+
+		List<OrderListModel> ordersIdRestaurant=orderPersistencePort.toResponseList(orderStatusRequestDto,restaruantEmployeeId.get().getIdRestaurant());
+	
+		return ordersIdRestaurant;
 	}
 	
 

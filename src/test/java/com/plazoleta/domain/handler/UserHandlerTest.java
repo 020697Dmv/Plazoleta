@@ -68,7 +68,7 @@ public class UserHandlerTest {
 	    @Test
 	    void testGuardarUsuario_Success() {
 	        when(usuarioRequestMapper.aUsuario(userRequestDto)).thenReturn(user);
-	        when(usuarioServicioPort.saveUser(user)).thenReturn(messageResponse);
+	        when(usuarioServicioPort.saveUser(user, null)).thenReturn(messageResponse);
 	      //  when(StringMessageResponse.toResponse(messageResponse)).thenReturn(stringResponseDto);
 
 	        MessageResponse result = userHandler.saveUser(userRequestDto);
@@ -76,7 +76,7 @@ public class UserHandlerTest {
 	        assertNotNull(result);
 	        assertEquals("User created successfully", result.getMessage());
 	        verify(usuarioRequestMapper).aUsuario(userRequestDto);
-	        verify(usuarioServicioPort).saveUser(user);
+	        verify(usuarioServicioPort).saveUser(user, null);
 	      //  verify(StringMessageResponse).toResponse(messageResponse);
 	    }
 
@@ -84,7 +84,7 @@ public class UserHandlerTest {
 	    void testGuardarUsuario_MapperInteractions() {
 	        // Given
 	        when(usuarioRequestMapper.aUsuario(userRequestDto)).thenReturn(user);
-	        when(usuarioServicioPort.saveUser(user)).thenReturn(messageResponse);
+	        when(usuarioServicioPort.saveUser(user, null)).thenReturn(messageResponse);
 	      //  when(StringMessageResponse.toResponse(messageResponse)).thenReturn(stringResponseDto);
 
 	        // When
@@ -100,7 +100,7 @@ public class UserHandlerTest {
 	    void testGuardarUsuario_ServicePortCalled() {
 	        // Given
 	        when(usuarioRequestMapper.aUsuario(userRequestDto)).thenReturn(user);
-	        when(usuarioServicioPort.saveUser(user)).thenReturn(messageResponse);
+	        when(usuarioServicioPort.saveUser(user, null)).thenReturn(messageResponse);
 	      //  when(StringMessageResponse.toResponse(messageResponse)).thenReturn(stringResponseDto);
 
 	        // When
@@ -111,7 +111,7 @@ public class UserHandlerTest {
 	            u.getId().equals(1L) && 
 	            u.getName().equals("John") && 
 	            u.getLastname().equals("Doe")
-	        ));
+	        ), null);
 	    }
 
 	    @Test
@@ -122,7 +122,7 @@ public class UserHandlerTest {
 	        specificResponse.setMensaje("Usuario created with id 123");
 	        
 	        when(usuarioRequestMapper.aUsuario(userRequestDto)).thenReturn(user);
-	        when(usuarioServicioPort.saveUser(user)).thenReturn(specificMessage);
+	        when(usuarioServicioPort.saveUser(user, null)).thenReturn(specificMessage);
 	       // when(StringMessageResponse.toResponse(specificMessage)).thenReturn(specificResponse);
 
 	        // When
@@ -138,12 +138,12 @@ public class UserHandlerTest {
 	    void testGuardarUsuario_NullUserRequestDto() {
 	        // Given
 	        when(usuarioRequestMapper.aUsuario(null)).thenReturn(null);
-	        when(usuarioServicioPort.saveUser(null)).thenThrow(new RuntimeException("User cannot be null"));
+	        when(usuarioServicioPort.saveUser(null, null)).thenThrow(new RuntimeException("User cannot be null"));
 
 	        // When & Then
 	        assertThrows(RuntimeException.class, () -> userHandler.saveUser(null));
 	        verify(usuarioRequestMapper).aUsuario(null);
-	        verify(usuarioServicioPort).saveUser(null);
+	        verify(usuarioServicioPort).saveUser(null, null);
 	        verifyNoInteractions(StringMessageResponse);
 	    }
 
@@ -151,12 +151,12 @@ public class UserHandlerTest {
 	    void testGuardarUsuario_ServicePortException() {
 	        // Given
 	        when(usuarioRequestMapper.aUsuario(userRequestDto)).thenReturn(user);
-	        when(usuarioServicioPort.saveUser(user)).thenThrow(new RuntimeException("Service error"));
+	        when(usuarioServicioPort.saveUser(user, null)).thenThrow(new RuntimeException("Service error"));
 
 	        // When & Then
 	        assertThrows(RuntimeException.class, () -> userHandler.saveUser(userRequestDto));
 	        verify(usuarioRequestMapper).aUsuario(userRequestDto);
-	        verify(usuarioServicioPort).saveUser(user);
+	        verify(usuarioServicioPort).saveUser(user, null);
 	        verifyNoInteractions(StringMessageResponse);
 	    }
 
@@ -176,13 +176,13 @@ public class UserHandlerTest {
 	    void testGuardarUsuario_ResponseMapperException() {
 	        // Given
 	        when(usuarioRequestMapper.aUsuario(userRequestDto)).thenReturn(user);
-	        when(usuarioServicioPort.saveUser(user)).thenReturn(messageResponse);
+	        when(usuarioServicioPort.saveUser(user, null)).thenReturn(messageResponse);
 	      //  when(StringMessageResponse.toResponse(messageResponse)).thenThrow(new RuntimeException("Response mapping error"));
 
 	        // When & Then
 	      //  assertThrows(RuntimeException.class, () -> userHandler.saveUser(userRequestDto));
 	        verify(usuarioRequestMapper).aUsuario(userRequestDto);
-	        verify(usuarioServicioPort).saveUser(user);
+	        verify(usuarioServicioPort).saveUser(user, null);
 	      //  verify(StringMessageResponse).toResponse(messageResponse);
 	    }
 }
