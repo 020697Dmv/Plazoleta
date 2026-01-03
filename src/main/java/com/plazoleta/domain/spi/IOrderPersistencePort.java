@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.plazoleta.application.dto.request.OrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
+import com.plazoleta.domain.model.OrderListModel;
 import com.plazoleta.domain.model.Orders;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
 
@@ -14,5 +15,5 @@ public interface IOrderPersistencePort {
 	
 	boolean existsByClientIdAndStatusIn(Long clientId, List<String> statuses);
 	
-	List<Orders> toResponseList(OrderStatusRequestDto orderStatusRequestDto);
+	List<OrderListModel> toResponseList(OrderStatusRequestDto orderStatusRequestDto, Long id);
 }

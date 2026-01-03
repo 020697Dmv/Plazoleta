@@ -52,6 +52,14 @@ public class RestaurantEmployeeAdapter implements IRestaurantEmployeePersistence
 	public Optional<RestaurantEmployee> findBy(Long id) {
 		return restaurantEmployeeRepository.findById(id).map(restaurantEmployeeMapper::toDomain);
 	}
+
+
+
+	@Override
+	public Optional<RestaurantEmployee> findByIdEmployee(Long id) {
+		
+		return restaurantEmployeeRepository.findByEmployeeId(id).map(restaurantEmployeeMapper::toDomain);
+	}
 	
 	
 	
