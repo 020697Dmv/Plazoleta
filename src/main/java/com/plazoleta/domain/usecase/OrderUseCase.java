@@ -11,23 +11,17 @@ import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.domain.api.IOrderServicePort;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.OrderListModel;
-import com.plazoleta.domain.model.Orders;
-import com.plazoleta.domain.model.Plate;
-import com.plazoleta.domain.model.Restaurant;
 import com.plazoleta.domain.model.RestaurantEmployee;
 import com.plazoleta.domain.spi.IOrderPersistencePort;
 import com.plazoleta.domain.spi.IPlatePersistencePort;
 import com.plazoleta.domain.spi.IRestaurantEmployeePersistencePort;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
-import com.plazoleta.domain.spi.IUserPersistencePort;
-import com.plazoleta.infrastructure.exception.PlateNotFoundException;
+import com.plazoleta.infrastructure.exception.RestaurantEmployeeNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderPlateEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.PlateEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IPlateEntityMapper;
-import com.plazoleta.infrastructure.out.jpa.repository.IOrderPlateRepository;
-import com.plazoleta.infrastructure.out.jpa.repository.IOrderRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,7 +33,6 @@ public class OrderUseCase  implements IOrderServicePort{
 
 	private final IPlatePersistencePort platePersistencePort;
 
-	private final IPlateEntityMapper plateEntityMapper;
 	
 	private final IRestaurantPersistencePort restaurantPersistencePort;
 	
@@ -93,6 +86,10 @@ public class OrderUseCase  implements IOrderServicePort{
 		
 		Optional<RestaurantEmployee>restaruantEmployeeId=restaurantEmployeePersistencePort.findByIdEmployee(orderStatusRequestDto.getIdEmployee());
 
+		if(restaruantEmployeeId.isEmpty()) {
+	        throw new RestaurantEmployeeNotFoundException();
+		}
+		
 		List<OrderListModel> ordersIdRestaurant=orderPersistencePort.toResponseList(orderStatusRequestDto,restaruantEmployeeId.get().getIdRestaurant());
 	
 		return ordersIdRestaurant;

@@ -64,10 +64,8 @@ public class OrdersController {
 	    pageRequestDto.setSize(size);	
 	    orderDto.setPageRequestDto(pageRequestDto);
 	    
-	    // 1. Obtener la lista del handler (debe devolver DTOs, no Entities)
 	    List<OrderListModel> orders = orderHandler.orders(orderDto);
 	    
-	    // 2. Retornar correctamente envuelto en ResponseEntity
 	    return ResponseEntity.ok(orders);
 	}
 

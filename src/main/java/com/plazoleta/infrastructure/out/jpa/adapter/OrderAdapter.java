@@ -7,18 +7,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.plazoleta.application.dto.request.OrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.domain.model.OrderListModel;
-import com.plazoleta.domain.model.Orders;
 import com.plazoleta.domain.spi.IOrderPersistencePort;
-import com.plazoleta.infrastructure.exception.PlateNotFoundException;
+import com.plazoleta.infrastructure.exception.OrderNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IOrderEntityMapper;
-import com.plazoleta.infrastructure.out.jpa.mapper.IUserEntityMapper;
 import com.plazoleta.infrastructure.out.jpa.repository.IOrderPlateRepository;
 import com.plazoleta.infrastructure.out.jpa.repository.IOrderRepository;
-import com.plazoleta.infrastructure.out.jpa.repository.IUserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,7 +52,7 @@ public class OrderAdapter implements IOrderPersistencePort{
 	    );
 	    
 	    if (orderPage.isEmpty()) {
-	        throw new PlateNotFoundException();
+	        throw new OrderNotFoundException();
 	    }
 	    
 	    List<OrderListModel> roLista = orderEntityMapper.toOrderList(orderPage.getContent());

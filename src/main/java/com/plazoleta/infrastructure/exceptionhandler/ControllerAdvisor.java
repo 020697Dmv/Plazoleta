@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.HttpStatus;
 
 import com.plazoleta.infrastructure.exception.NotPermissionuserException;
+import com.plazoleta.infrastructure.exception.OrderNotFoundException;
 import com.plazoleta.infrastructure.exception.PlateAlreadyExistException;
 import com.plazoleta.infrastructure.exception.PlateNotFoundException;
 import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
+import com.plazoleta.infrastructure.exception.RestaurantEmployeeNotFoundException;
 import com.plazoleta.infrastructure.exception.RestaurantsNotExistsException;
 import com.plazoleta.infrastructure.exception.UserAlreadyExistException;
 import com.plazoleta.infrastructure.exception.UserNotFoundException;
@@ -70,5 +72,19 @@ public class ControllerAdvisor {
     		NotPermissionuserException notPermissionuserException) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.USER_NOT_PERMISSION.getMessage()));
+    }
+    
+    @ExceptionHandler(RestaurantEmployeeNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleRestaurantEmployeeNotFoundException(
+    		RestaurantEmployeeNotFoundException restaurantEmployeeNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.RESTAURANT_EMPLOYEE_NOT_FOUND.getMessage()));
+    }
+    
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleOrderNotFoundException(
+    		OrderNotFoundException orderNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.ORDER_NOT_FOUND.getMessage()));
     }
 }
