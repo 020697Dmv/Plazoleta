@@ -18,19 +18,22 @@ public class Orders {
 	    private String status;
 	    
 	    private Long nit;
+	    
+	    private Long idEmpleado;
 
 		public Orders() {
 			super();
 		}
 
-		public Orders(Long id, Long clientId, LocalDateTime date, String status, Long nit) {
-			super();
-			this.id = id;
-			this.clientId = clientId;
-			this.date = date;
-			this.status = status;
-			this.nit = nit;
-		}
+		public Orders(Long id, Long clientId, LocalDateTime date, String status, Long nit, Long idEmpleado) {
+	        super();
+	        this.id = id;
+	        this.clientId = clientId;
+	        this.date = date;
+	        this.status = status;
+	        this.nit = nit;
+	        this.idEmpleado = idEmpleado;
+	    }
 
 		public Long getId() {
 			return id;
@@ -72,8 +75,13 @@ public class Orders {
 			this.nit = nit;
 		}
 		
-		
+		public Long getIdEmpleado() {
+	        return idEmpleado;
+	    }
 
+	    public void setIdEmpleado(Long idEmpleado) {
+	        this.idEmpleado = idEmpleado;
+	    }
 	    
 	    
 }

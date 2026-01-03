@@ -2,6 +2,7 @@ package com.plazoleta.domain.api;
 
 import java.util.List;
 
+import com.plazoleta.application.dto.request.AssignOrderRequestDto;
 import com.plazoleta.application.dto.request.OrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.domain.model.MessageResponse;
@@ -15,4 +16,7 @@ public interface IOrderServicePort {
 	
 	MessageResponse saveOrder(OrderRequestDto orderRequestDto);
 	List<OrderListModel> orders(OrderStatusRequestDto orderStatusRequestDto);
+	List<OrderListModel> ordersAsignStatus(AssignOrderRequestDto assignOrderRequestDto);
+
 }
+

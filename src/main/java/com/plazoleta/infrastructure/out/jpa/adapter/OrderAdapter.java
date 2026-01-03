@@ -1,12 +1,14 @@
 package com.plazoleta.infrastructure.out.jpa.adapter;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.plazoleta.application.dto.request.AssignOrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.domain.model.OrderListModel;
 import com.plazoleta.domain.spi.IOrderPersistencePort;
@@ -58,6 +60,32 @@ public class OrderAdapter implements IOrderPersistencePort{
 	    List<OrderListModel> roLista = orderEntityMapper.toOrderList(orderPage.getContent());
 	    
 	    return roLista; 
+	}
+
+	@Override
+	public List<OrderListModel> asignnedStatusAsign(AssignOrderRequestDto assignOrderRequestDto, Long idRestaurant,OrderEntity orderEntity) {
+		
+		Pageable pageableResponse = PageRequest.of(
+				assignOrderRequestDto.getPageRequestDto().getPage(),
+				assignOrderRequestDto.getPageRequestDto().getSize()
+		    );
+		 Page<OrderEntity> orderPage = orderRepository.findAllByRestaurantNit(
+			        idRestaurant, pageableResponse);
+		
+		 if (orderPage.isEmpty()) {
+		        throw new OrderNotFoundException();
+		    }
+		orderRepository.save(orderEntity);
+
+		 
+		List<OrderListModel> roLista = orderEntityMapper.toOrderList(orderPage.getContent());
+
+		return roLista;
+	}
+
+	@Override
+	public Optional<OrderEntity> findById(Long id,Long idRestaurant) {
+		return orderRepository.findByIdAndRestaurantNit(id,idRestaurant);
 	}
 
 }
