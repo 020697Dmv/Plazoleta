@@ -166,6 +166,8 @@ public class OrderUseCase  implements IOrderServicePort{
 		
 		 OrderEntity orderSaveEntity = orderPersistencePort.findByIdOrder(orderId)
 		    	    .map(order -> {	    	
+		    	    	order.setStatus("LISTO");
+
 		    	    	order.setSecurityPin(securityPin);
 		    	        return order;
 		    	    })
