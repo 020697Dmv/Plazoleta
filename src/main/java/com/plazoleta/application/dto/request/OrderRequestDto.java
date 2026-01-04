@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 public class OrderRequestDto {
 
-	private Long idClient;
 	private Long restaurantId; 
     private List<OrderPlateRequestDto> plates;
 }

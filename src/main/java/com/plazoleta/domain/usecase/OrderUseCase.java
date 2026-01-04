@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,16 +14,21 @@ import org.springframework.stereotype.Service;
 import com.plazoleta.application.dto.request.AssignOrderRequestDto;
 import com.plazoleta.application.dto.request.OrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
+import com.plazoleta.application.dto.request.SmsRequestDto;
 import com.plazoleta.domain.api.IOrderServicePort;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.OrderListModel;
 import com.plazoleta.domain.model.RestaurantEmployee;
+import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IOrderPersistencePort;
 import com.plazoleta.domain.spi.IPlatePersistencePort;
 import com.plazoleta.domain.spi.IRestaurantEmployeePersistencePort;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
+import com.plazoleta.domain.spi.ISmsSenderPersistencePort;
+import com.plazoleta.domain.spi.IUserPersistencePort;
 import com.plazoleta.infrastructure.exception.OrderNotFoundException;
 import com.plazoleta.infrastructure.exception.RestaurantEmployeeNotFoundException;
+import com.plazoleta.infrastructure.exception.UserNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderPlateEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.PlateEntity;
@@ -44,16 +50,30 @@ public class OrderUseCase  implements IOrderServicePort{
 	private final IRestaurantPersistencePort restaurantPersistencePort;
 	
 	private final IRestaurantEmployeePersistencePort restaurantEmployeePersistencePort;
+	
+	private final IUserPersistencePort userPersistencePort;
+
+	private final ISmsSenderPersistencePort smsSenderPersistencePort;
 
 
 	
 	@Override
 	public MessageResponse saveOrder(OrderRequestDto orderRequestDto) {
-	    Long clientId = orderRequestDto.getIdClient();
-
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+	    UserEntity userEntity = (UserEntity) auth.getPrincipal(); 
+	    Long clientId=null;
+	    boolean isClient = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("CLIENT"));
+			if(isClient) {
+			clientId = userEntity.getId();
+			} else {
+			throw new UserNotFoundException();
+			}
 	    List<String> inProcessStatuses = List.of("PENDIENTE", "EN_PREPARACION", "LISTO");
 	    if (orderPersistencePort.existsByClientIdAndStatusIn(clientId, inProcessStatuses)) {
-	        return new MessageResponse("Ya tienes un pedido en curso.");
+	        return new MessageResponse(String.format("Ya tienes un pedido en curso.", clientId));
 	    }
 
 	    RestaurantEntity restaurant = restaurantPersistencePort.findByIdEntity(orderRequestDto.getRestaurantId())
@@ -136,6 +156,31 @@ public class OrderUseCase  implements IOrderServicePort{
 		List<OrderListModel> ordersIdRestaurant=orderPersistencePort.asignnedStatusAsign(assignOrderRequestDto,restaruantEmployeeId.get().getIdRestaurant(),orderSaveEntity);
 
 		return ordersIdRestaurant;
+	}
+
+
+	@Override
+	public void sendSmdNotify(Long orderId) {
+		
+		String securityPin = String.format("%06d", new Random().nextInt(999999));
+		
+		 OrderEntity orderSaveEntity = orderPersistencePort.findByIdOrder(orderId)
+		    	    .map(order -> {	    	
+		    	    	order.setSecurityPin(securityPin);
+		    	        return order;
+		    	    })
+		    	    .orElseThrow(() -> new OrderNotFoundException()); 
+		
+		Optional<User> userNotify=userPersistencePort.findById(orderSaveEntity.getClientId());
+		 
+		SmsRequestDto smsRequestDto= new SmsRequestDto();
+		
+		smsRequestDto.setPhoneNumber(userNotify.get().getPhone());
+		
+		smsRequestDto.setMessage("Your order code is: " +securityPin);
+		smsSenderPersistencePort.sendSmd(smsRequestDto);
+		
+		orderPersistencePort.saveOrder(orderSaveEntity);
 	}
 	
 
