@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.plazoleta.application.dto.request.AssignOrderRequestDto;
 import com.plazoleta.application.dto.request.OrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
+import com.plazoleta.application.dto.request.SmsRequestDto;
 import com.plazoleta.application.handler.IOrderHandler;
 import com.plazoleta.application.mapper.IUserRequestMapper;
 import com.plazoleta.domain.api.IOrderServicePort;
@@ -26,7 +27,7 @@ public class OrderHandler implements IOrderHandler{
 	
 	public final IOrderServicePort orderServicePort;
 	
-	
+
 	
 	@Override
 	public MessageResponse saveOrder(OrderRequestDto orderRequestDto) {
@@ -49,6 +50,13 @@ public class OrderHandler implements IOrderHandler{
 	public List<OrderListModel> ordersAsignStatus(AssignOrderRequestDto assignOrderRequestDto) {
 
 		return orderServicePort.ordersAsignStatus(assignOrderRequestDto);
+	}
+
+
+
+	@Override
+	public void sendSmsNotify(Long idOrder) {
+		orderServicePort.sendSmdNotify(idOrder);
 	}
 	
 	

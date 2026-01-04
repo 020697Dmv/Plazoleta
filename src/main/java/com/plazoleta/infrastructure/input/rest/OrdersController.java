@@ -16,6 +16,7 @@ import com.plazoleta.application.dto.request.OrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.application.dto.request.PageRequestDto;
 import com.plazoleta.application.dto.request.SearchPlateRequestDto;
+import com.plazoleta.application.dto.request.SmsRequestDto;
 import com.plazoleta.application.dto.response.AuthRespondeDto;
 import com.plazoleta.application.handler.ILoginHandler;
 import com.plazoleta.application.handler.IOrderHandler;
@@ -28,6 +29,7 @@ import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -37,13 +39,13 @@ public class OrdersController {
 	
 	private final IOrderHandler orderHandler;
 	
-	@Operation(summary = "Order", description = "Add a new Order")
+	@Operation(summary = "saveOrder", description = "Add a new Order")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Exitoso"),
 		@ApiResponse(responseCode = "204", description = "No hay información"),
 		@ApiResponse(responseCode = "500", description = "Error interno"),
 		@ApiResponse(responseCode = "400", description = "Error de request"),
 		@ApiResponse(responseCode = "401", description = "No autorizado")})
-	@PostMapping(value="/order", produces = "application/json")
+	@PostMapping(value="/saveOrder", produces = "application/json")
 	public ResponseEntity<MessageResponse> login(@RequestBody OrderRequestDto request ) {		
 		
 		return ResponseEntity.ok(orderHandler.saveOrder(request));
@@ -88,5 +90,12 @@ public class OrdersController {
 	    
 	    return ResponseEntity.ok(orders);
 	}
+	
+	@PostMapping(value="/sendSmsNotify", produces = "application/json")
+	    public void sendSms(@Valid 
+		        @RequestParam Long orderId
+	    		) {
+		 orderHandler.sendSmsNotify(orderId);
+	    }
 
 }

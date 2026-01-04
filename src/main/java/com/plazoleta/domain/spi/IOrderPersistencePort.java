@@ -23,4 +23,7 @@ public interface IOrderPersistencePort {
 	List<OrderListModel> asignnedStatusAsign(AssignOrderRequestDto assignOrderRequestDto, Long id,OrderEntity orderEntity);
 
 	Optional<OrderEntity> findById(Long idOrder,Long idRestaurant);
+	
+	Optional<OrderEntity> findByIdOrder(Long idOrder);
+
 }

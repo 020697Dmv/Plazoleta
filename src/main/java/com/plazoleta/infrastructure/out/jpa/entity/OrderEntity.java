@@ -56,7 +56,11 @@ public class OrderEntity {
     
     @Column(name = "fk_employee_id") 
     private Long fkEmployeeId;
+        
+    @Column(name = "security_pin") 
+    private String securityPin;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderPlateEntity> orderPlates;
+
 }
