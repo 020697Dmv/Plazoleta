@@ -12,7 +12,8 @@ public enum ExceptionResponse {
     EMPLOYEE_NOT_FOUND("No Employee was found"),
     EMPLOYEE_ALREADY_EXISTS("There is already a Employee with that ID"),
 	ORDER_NOT_FOUND("The restaurant currently has no orders associated with the state."),
-	RESTAURANT_EMPLOYEE_NOT_FOUND("The employee is not affiliated with any restaurant.");
+	RESTAURANT_EMPLOYEE_NOT_FOUND("The employee is not affiliated with any restaurant."),
+	ORDER_NOT_AVAILABLE("The order is not available for delivery.");
 
     private final String message;
 

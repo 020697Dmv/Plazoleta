@@ -26,6 +26,7 @@ import com.plazoleta.domain.spi.IRestaurantEmployeePersistencePort;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
 import com.plazoleta.domain.spi.ISmsSenderPersistencePort;
 import com.plazoleta.domain.spi.IUserPersistencePort;
+import com.plazoleta.infrastructure.exception.NotPermissionuserException;
 import com.plazoleta.infrastructure.exception.OrderNotFoundException;
 import com.plazoleta.infrastructure.exception.RestaurantEmployeeNotFoundException;
 import com.plazoleta.infrastructure.exception.UserNotFoundException;
@@ -162,10 +163,23 @@ public class OrderUseCase  implements IOrderServicePort{
 	@Override
 	public void sendSmdNotify(Long orderId) {
 		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+	    UserEntity userEntity = (UserEntity) auth.getPrincipal(); 
+	    Long idEmpleado = userEntity.getId();
+	   
+	
+	    Optional<RestaurantEmployee>restaruantEmployeeId=restaurantEmployeePersistencePort.findByIdEmployee(idEmpleado);
+	    if(restaruantEmployeeId.isEmpty()) {
+	        throw new RestaurantEmployeeNotFoundException();
+		}
+		
+		
 		String securityPin = String.format("%06d", new Random().nextInt(999999));
 		
-		 OrderEntity orderSaveEntity = orderPersistencePort.findByIdOrder(orderId)
-		    	    .map(order -> {	    	
+	 
+		 OrderEntity orderSaveEntity = orderPersistencePort.findById(orderId,restaruantEmployeeId.get().getIdRestaurant())
+		    	    .map(order -> {
 		    	    	order.setStatus("LISTO");
 
 		    	    	order.setSecurityPin(securityPin);
@@ -183,6 +197,42 @@ public class OrderUseCase  implements IOrderServicePort{
 		smsSenderPersistencePort.sendSmd(smsRequestDto);
 		
 		orderPersistencePort.saveOrder(orderSaveEntity);
+	}
+
+
+	@Override
+	public MessageResponse updateStatusOrder(String secutiryCode, Long orderId) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+	    UserEntity userEntity = (UserEntity) auth.getPrincipal(); 
+	    Long idEmpleado = userEntity.getId();
+	    
+	    Optional<RestaurantEmployee>restaruantEmployeeId=restaurantEmployeePersistencePort.findByIdEmployee(idEmpleado);
+	    if(restaruantEmployeeId.isEmpty()) {
+	        throw new RestaurantEmployeeNotFoundException();
+		}
+	    
+	    OrderEntity orderSaveEntity = orderPersistencePort.findByIdOrderEmployeeId(orderId,
+	    		restaruantEmployeeId.get().getIdRestaurant(),
+	    		restaruantEmployeeId.get().getIdEmployee())
+	    	    .map(order -> {
+	    	    	
+	    	    	if(secutiryCode.equals(order.getSecurityPin()) && "LISTO".equals(order.getStatus())) {
+		    	    	order.setStatus("ENTREGADO");
+
+	    	    	} else {
+	    	    		
+	    		        throw new NotPermissionuserException();
+
+	    	    	}
+
+	    	        return order;
+	    	    })
+	    	    .orElseThrow(() -> new OrderNotFoundException()); 
+	
+		orderPersistencePort.saveOrder(orderSaveEntity);
+		
+	    return new MessageResponse(String.format("The order status has been updated to Delivered, client ID: ", orderId));
 	}
 	
 

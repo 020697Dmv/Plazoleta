@@ -19,6 +19,7 @@ public interface IOrderServicePort {
 	List<OrderListModel> orders(OrderStatusRequestDto orderStatusRequestDto);
 	List<OrderListModel> ordersAsignStatus(AssignOrderRequestDto assignOrderRequestDto);
 	void sendSmdNotify(Long idOrder);
+	MessageResponse updateStatusOrder(String secutiryCode, Long orderId);
 
 
 }

@@ -91,11 +91,25 @@ public class OrdersController {
 	    return ResponseEntity.ok(orders);
 	}
 	
-	@PostMapping(value="/sendSmsNotify", produces = "application/json")
+		@PostMapping(value="/sendSmsNotify", produces = "application/json")
 	    public void sendSms(@Valid 
 		        @RequestParam Long orderId
 	    		) {
 		 orderHandler.sendSmsNotify(orderId);
 	    }
+	
+	@Operation(summary = "updateDeliveredOrder", description = "Add a status Delivered Order")
+	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Exitoso"),
+		@ApiResponse(responseCode = "204", description = "No hay información"),
+		@ApiResponse(responseCode = "500", description = "Error interno"),
+		@ApiResponse(responseCode = "400", description = "Error de request"),
+		@ApiResponse(responseCode = "401", description = "No autorizado")})
+	@PostMapping(value="/updateDeliveredOrder", produces = "application/json")
+	public ResponseEntity<MessageResponse> updateDeliveredOrder(@Valid 
+	        @RequestParam String secutiryCode,
+	        @RequestParam Long orderId ) {		
+		
+		return ResponseEntity.ok(orderHandler.updateStatusOrder(secutiryCode,orderId));
+	}
 
 }
