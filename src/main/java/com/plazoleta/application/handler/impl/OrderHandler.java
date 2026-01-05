@@ -37,7 +37,6 @@ public class OrderHandler implements IOrderHandler{
 	}
 
 
-
 	@Override
 	public List<OrderListModel> orders(OrderStatusRequestDto orderStatusRequestDto) {
 		
@@ -57,6 +56,13 @@ public class OrderHandler implements IOrderHandler{
 	@Override
 	public void sendSmsNotify(Long idOrder) {
 		orderServicePort.sendSmdNotify(idOrder);
+	}
+
+
+	@Override
+	public MessageResponse updateStatusOrder(String secutiryCode,Long idOrder) {
+		MessageResponse messageResponse=orderServicePort.updateStatusOrder(secutiryCode, idOrder);
+			return messageResponse;
 	}
 	
 	

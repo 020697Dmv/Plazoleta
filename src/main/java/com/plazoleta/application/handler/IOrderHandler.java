@@ -20,4 +20,7 @@ public interface IOrderHandler {
 	List<OrderListModel> ordersAsignStatus(AssignOrderRequestDto assignOrderRequestDto);
 	
 	void sendSmsNotify(Long idOrder);
+	
+	MessageResponse updateStatusOrder(String secutiryCode,Long idOrder);
+
 }
