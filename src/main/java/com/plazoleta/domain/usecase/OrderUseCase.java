@@ -26,6 +26,7 @@ import com.plazoleta.domain.spi.IRestaurantEmployeePersistencePort;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
 import com.plazoleta.domain.spi.ISmsSenderPersistencePort;
 import com.plazoleta.domain.spi.IUserPersistencePort;
+import com.plazoleta.infrastructure.exception.NotOrderCancelException;
 import com.plazoleta.infrastructure.exception.NotPermissionuserException;
 import com.plazoleta.infrastructure.exception.OrderNotFoundException;
 import com.plazoleta.infrastructure.exception.RestaurantEmployeeNotFoundException;
@@ -223,6 +224,34 @@ public class OrderUseCase  implements IOrderServicePort{
 	    	    	} else {
 	    	    		
 	    		        throw new NotPermissionuserException();
+
+	    	    	}
+
+	    	        return order;
+	    	    })
+	    	    .orElseThrow(() -> new OrderNotFoundException()); 
+	
+		orderPersistencePort.saveOrder(orderSaveEntity);
+		
+	    return new MessageResponse(String.format("The order status has been updated to Delivered, client ID: ", orderId));
+	}
+
+
+	@Override
+	public MessageResponse cancelStatusOrder(Long orderId) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    UserEntity userEntity = (UserEntity) auth.getPrincipal(); 
+	    Long idEmpleado = userEntity.getId();
+	        
+	    OrderEntity orderSaveEntity = orderPersistencePort.findByIdAndClientId(orderId, idEmpleado)
+	    	    .map(order -> {
+	    	    	
+	    	    	if("PENDIENTE".equals(order.getStatus())) {
+		    	    	order.setStatus("CANCELADO");
+
+	    	    	} else {
+	    	    		
+	    		        throw new NotOrderCancelException();
 
 	    	    	}
 

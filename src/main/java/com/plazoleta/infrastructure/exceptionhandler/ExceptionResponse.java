@@ -13,7 +13,8 @@ public enum ExceptionResponse {
     EMPLOYEE_ALREADY_EXISTS("There is already a Employee with that ID"),
 	ORDER_NOT_FOUND("The restaurant currently has no orders associated with the state."),
 	RESTAURANT_EMPLOYEE_NOT_FOUND("The employee is not affiliated with any restaurant."),
-	ORDER_NOT_AVAILABLE("The order is not available for delivery.");
+	ORDER_NOT_AVAILABLE("The order is not available for delivery."),
+	ORDER_NOT_APREPARED("We're sorry, your order is already being prepared and cannot be cancelled.");
 
     private final String message;
 

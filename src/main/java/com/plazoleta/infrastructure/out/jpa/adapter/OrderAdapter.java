@@ -98,4 +98,9 @@ public class OrderAdapter implements IOrderPersistencePort{
 		return orderRepository.findByIdAndRestaurantNitAndFkEmployeeId(id,restaurantNit,fkEmployeeId);
 	}
 
+	@Override
+	public Optional<OrderEntity> findByIdAndClientId(Long id, Long clientId) {
+		return orderRepository.findByIdAndClientId(id, clientId);
+	}
+
 }

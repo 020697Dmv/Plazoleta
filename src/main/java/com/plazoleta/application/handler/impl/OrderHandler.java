@@ -64,6 +64,13 @@ public class OrderHandler implements IOrderHandler{
 		MessageResponse messageResponse=orderServicePort.updateStatusOrder(secutiryCode, idOrder);
 			return messageResponse;
 	}
+
+
+	@Override
+	public MessageResponse cancelStatusOrder(Long idOrder) {
+		MessageResponse messageResponse=orderServicePort.cancelStatusOrder(idOrder);			
+		return messageResponse;
+	}
 	
 	
 

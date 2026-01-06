@@ -111,5 +111,18 @@ public class OrdersController {
 		
 		return ResponseEntity.ok(orderHandler.updateStatusOrder(secutiryCode,orderId));
 	}
+	
+	@Operation(summary = "cancelOrder", description = "Cancel Order")
+	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Exitoso"),
+		@ApiResponse(responseCode = "204", description = "No hay información"),
+		@ApiResponse(responseCode = "500", description = "Error interno"),
+		@ApiResponse(responseCode = "400", description = "Error de request"),
+		@ApiResponse(responseCode = "401", description = "No autorizado")})
+	@PostMapping(value="/cancelOrder", produces = "application/json")
+	public ResponseEntity<MessageResponse> cancelDeliveredOrder(@Valid 
+	        @RequestParam Long orderId ) {		
+		return ResponseEntity.ok(orderHandler.cancelStatusOrder(orderId));
+	}
+
 
 }
