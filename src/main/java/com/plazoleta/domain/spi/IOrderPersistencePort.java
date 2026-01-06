@@ -28,5 +28,5 @@ public interface IOrderPersistencePort {
 	
 	Optional<OrderEntity> findByIdOrderEmployeeId(Long id, Long restaurantNit, Long fkEmployeeId);
 
-
+	Optional<OrderEntity> findByIdAndClientId(Long id, Long clientId);
 }

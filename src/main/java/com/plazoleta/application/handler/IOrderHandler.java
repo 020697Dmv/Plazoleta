@@ -22,5 +22,8 @@ public interface IOrderHandler {
 	void sendSmsNotify(Long idOrder);
 	
 	MessageResponse updateStatusOrder(String secutiryCode,Long idOrder);
+	
+	MessageResponse cancelStatusOrder(Long idOrder);
+
 
 }

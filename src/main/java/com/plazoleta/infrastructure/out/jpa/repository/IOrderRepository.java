@@ -20,6 +20,8 @@ public interface IOrderRepository extends JpaRepository<OrderEntity, Long> {
     Optional<OrderEntity> findByIdAndRestaurantNit(Long id, Long restaurantNit);
     
     Optional<OrderEntity> findByIdAndRestaurantNitAndFkEmployeeId(Long id, Long restaurantNit, Long fkEmployeeId);
+    
+    Optional<OrderEntity> findByIdAndClientId(Long id, Long clientId);
 }
 
 

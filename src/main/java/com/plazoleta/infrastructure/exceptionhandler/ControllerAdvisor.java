@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.HttpStatus;
 
+import com.plazoleta.infrastructure.exception.NotOrderCancelException;
 import com.plazoleta.infrastructure.exception.NotPermissionuserException;
 import com.plazoleta.infrastructure.exception.NotorderDeliveryException;
 import com.plazoleta.infrastructure.exception.OrderNotFoundException;
@@ -94,5 +95,12 @@ public class ControllerAdvisor {
     		NotorderDeliveryException orderNotFoundException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.ORDER_NOT_AVAILABLE.getMessage()));
+    }
+    
+    @ExceptionHandler(NotOrderCancelException.class)
+    public ResponseEntity<Map<String, String>> handleOrderNotCancelException(
+    		NotOrderCancelException orderNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.ORDER_NOT_APREPARED.getMessage()));
     }
 }

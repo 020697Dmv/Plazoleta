@@ -33,6 +33,7 @@ public class SecurityConfig {
 	                    .requestMatchers("/api/v1/Orders/listOrders").hasAuthority("EMPLOYEE")
 	                    .requestMatchers("/api/v1/Orders/sendSmsNotify").hasAuthority("EMPLOYEE")
 	                    .requestMatchers("/api/v1/Orders/updateDeliveredOrder").hasAuthority("EMPLOYEE")
+	                    .requestMatchers("/api/v1/Orders/cancelOrder").hasAuthority("CLIENT")
 	                    .requestMatchers("/api/v1/Plate/**").hasAuthority("OWNER")
 	            	    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/h2-console/**").permitAll()
 	            	    .anyRequest().authenticated()
