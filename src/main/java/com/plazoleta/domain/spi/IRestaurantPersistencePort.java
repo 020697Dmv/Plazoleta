@@ -11,7 +11,7 @@ public interface IRestaurantPersistencePort {
 
 	Restaurant saveRestaurant(Restaurant restaurant,User owner);
 	
-	Optional<Restaurant>  findById(Long id);
+	Restaurant findById(Long id);
 
 	List<Restaurant> getAllRestaurants (int page, int size);
 

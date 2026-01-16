@@ -10,6 +10,7 @@ import com.plazoleta.domain.model.Restaurant;
 import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
 import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
+import com.plazoleta.infrastructure.exception.RestaurantNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
@@ -41,9 +42,13 @@ public class RestaurantAdapter  implements IRestaurantPersistencePort{
 	}
 
 	@Override
-	public Optional<Restaurant> findById(Long id) {
-		return restaurantRepository.findById(id)
-				.map(restaurantEntityMapper::toRestaurant);
+	public Restaurant findById(Long id) {
+		Optional<RestaurantEntity>restaurant=restaurantRepository.findById(id);
+		
+		if(restaurant.isEmpty()) {
+			throw new RestaurantNotFoundException();
+		}
+		return restaurantEntityMapper.toRestaurant(restaurant.get());
 	}
 
 	@Override

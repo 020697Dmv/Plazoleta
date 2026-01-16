@@ -12,12 +12,11 @@ import com.plazoleta.application.handler.IPlateHandler;
 import com.plazoleta.application.mapper.IMensaggeResponseMapper;
 import com.plazoleta.application.mapper.IPlateRequestMapper;
 import com.plazoleta.application.mapper.IPlateResponseMapper;
-import com.plazoleta.application.mapper.IRestaurantRequestMapper;
-import com.plazoleta.application.mapper.IRestaurantResponseMapper;
 import com.plazoleta.domain.api.IPlateServicePort;
-import com.plazoleta.domain.api.IRestaurantServicePort;
+import com.plazoleta.domain.model.EnablePlate;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Plate;
+import com.plazoleta.domain.model.UpdatePlate;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,6 @@ public class PlateHandler implements IPlateHandler{
 	private final IPlateServicePort plateServicePort;
 	private final IPlateRequestMapper plateRequestMapper;
 	private final IPlateResponseMapper plateResponseMapper;
-	private final IMensaggeResponseMapper StringMessageResponse;
 
 	
 	@Override
@@ -44,14 +42,16 @@ public class PlateHandler implements IPlateHandler{
 
 	@Override
 	public MessageResponse updatePlate(UpdatePlateRequestDto updatePlateRequestDto) {
-		MessageResponse messageResponse=plateServicePort.updatePlate(updatePlateRequestDto);
+		UpdatePlate updatePlate=plateResponseMapper.toUpdatePlate(updatePlateRequestDto);
+		MessageResponse messageResponse=plateServicePort.updatePlate(updatePlate);
 		return messageResponse;
 	}
 
 
 	@Override
 	public MessageResponse updateActivePlate(EnablePlateResquestDto enablePlateResquestDto) {
-		MessageResponse messageResponse=plateServicePort.updateActivePlate(enablePlateResquestDto);
+		EnablePlate enablePlate=plateResponseMapper.toEnablePlate(enablePlateResquestDto);
+		MessageResponse messageResponse=plateServicePort.updateActivePlate(enablePlate);
 		return messageResponse;
 	}
 

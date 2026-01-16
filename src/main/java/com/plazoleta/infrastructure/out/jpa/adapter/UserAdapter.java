@@ -28,6 +28,7 @@ public class UserAdapter implements IUserPersistencePort  {
 	
 	@Override
 	public User saveUser(User user) {
+		//Pasword se debe hacer en el domain, por ser logica de negocio
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		UserEntity userEntity=usuarioRepository.save(usuarioEntidadMapeo.toEntity(user));
 		return usuarioEntidadMapeo.toUser(userEntity);

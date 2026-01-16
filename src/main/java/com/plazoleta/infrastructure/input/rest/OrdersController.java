@@ -27,35 +27,45 @@ import com.plazoleta.domain.model.Plate;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/Orders")
 @RequiredArgsConstructor
+@Tag(name = "Orders", description = "Operations for managing the order life cycle")
 public class OrdersController {
 	
 	private final IOrderHandler orderHandler;
 	
-	@Operation(summary = "saveOrder", description = "Add a new Order")
-	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Exitoso"),
-		@ApiResponse(responseCode = "204", description = "No hay información"),
-		@ApiResponse(responseCode = "500", description = "Error interno"),
-		@ApiResponse(responseCode = "400", description = "Error de request"),
-		@ApiResponse(responseCode = "401", description = "No autorizado")})
-	@PostMapping(value="/saveOrder", produces = "application/json")
-	public ResponseEntity<MessageResponse> login(@RequestBody OrderRequestDto request ) {		
+	 @Operation(
+		        summary = "Place a new order",
+		        description = "Allows a registered client to create an order. The system validates that the client does not have an active order in progress."
+		    )
+		    @ApiResponses({
+		        @ApiResponse(responseCode = "201", description = "Order created successfully"),
+		        @ApiResponse(description = "Invalid input data", responseCode = "400"),
+		        @ApiResponse(description = "Client already has an active order", responseCode = "409")
+		    })
+	 @PostMapping(value="/saveOrder", produces = "application/json")
+	public ResponseEntity<MessageResponse> saveOrder(@RequestBody OrderRequestDto request ) {		
 		
 		return ResponseEntity.ok(orderHandler.saveOrder(request));
 	}
 	
+	 @Operation(
+		        summary = "List orders by status",
+		        description = "Allows employees to view orders filtered by status (PENDING, IN_PREPARATION, etc.) for their assigned restaurant."
+		    )
 	@GetMapping("/listOrders")
 	public ResponseEntity<List<OrderListModel>> listOrders(
-	        @RequestParam String status,
-	        @RequestParam(defaultValue = "0") int page,
-	        @RequestParam(defaultValue = "10") int size) {
+			 @Parameter(description = "Status to filter by", example = "PENDING") @RequestParam String status,
+	            @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
+	            @Parameter(description = "Page size") @RequestParam(defaultValue = "10") int size) {
 	    
 	    OrderStatusRequestDto orderDto = new OrderStatusRequestDto();
 	    orderDto.setIdEmployee(null);

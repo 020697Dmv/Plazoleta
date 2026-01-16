@@ -1,25 +1,20 @@
 package com.plazoleta.domain.usecase;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.plazoleta.application.dto.request.EnablePlateResquestDto;
 import com.plazoleta.application.dto.request.SearchPlateRequestDto;
-import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
 import com.plazoleta.domain.api.IPlateServicePort;
+import com.plazoleta.domain.model.EnablePlate;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Plate;
 import com.plazoleta.domain.model.Restaurant;
+import com.plazoleta.domain.model.UpdatePlate;
 import com.plazoleta.domain.spi.IPlatePersistencePort;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
-import com.plazoleta.domain.spi.IUserPersistencePort;
 import com.plazoleta.domain.validacion.PlateValidation;
-import com.plazoleta.infrastructure.exception.PlateNotFoundException;
-import com.plazoleta.infrastructure.exception.RestaurantNotFoundException;
-import com.plazoleta.infrastructure.exception.UserNotOwnerOfRestaurantException;
-import com.plazoleta.infrastructure.out.jpa.entity.PlateEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,7 +30,7 @@ public class PlateUseCase implements IPlateServicePort{
 	public MessageResponse savePlate(Plate plate) {
 		
 		Restaurant restaurantOwner=restaurantPersistencePort
-				.findById(plate.getRestaurant()).orElseThrow(RestaurantNotFoundException::new);
+				.findById(plate.getRestaurant());
 		PlateValidation.ValidatePlate(plate);
 		Plate plateSave=platePersistencePort.savePlate(plate, restaurantOwner);
 		return new MessageResponse(
@@ -43,11 +38,10 @@ public class PlateUseCase implements IPlateServicePort{
 	}
 
 	@Override
-	public MessageResponse updatePlate(UpdatePlateRequestDto updatePlateRequestDto) {
-		PlateEntity plateObject=platePersistencePort.findyByIdEntity(updatePlateRequestDto.getId())
-				.orElseThrow(PlateNotFoundException::new);
-		plateObject.setPrice(updatePlateRequestDto.getPrice());
-		plateObject.setDescription(updatePlateRequestDto.getDescription());
+	public MessageResponse updatePlate(UpdatePlate updatePlate) {
+		Plate plateObject=platePersistencePort.findyByIdEntity(updatePlate.getId());
+		plateObject.setPrice(updatePlate.getPrice());
+		plateObject.setDescription(updatePlate.getDescription());
 		PlateValidation.ValidatePlateEntity(plateObject);
 		Plate plateSave=platePersistencePort.updatePlate(plateObject);
 		return new MessageResponse(
@@ -55,28 +49,27 @@ public class PlateUseCase implements IPlateServicePort{
 	}
 
 	@Override
-	public MessageResponse updateActivePlate(EnablePlateResquestDto enablePlateResquestDto) {
+	public MessageResponse updateActivePlate(EnablePlate enablePlateo) {
 		
-	    PlateEntity plateObject = platePersistencePort.findyByIdEntity(enablePlateResquestDto.getIdPlate())
-	            .orElseThrow(PlateNotFoundException::new);
+	    Plate plateObject = platePersistencePort.findyByIdEntity(enablePlateo.getIdPlate());
 	    
-	    Long idRestaurant=plateObject.getRestaurant().getNit();
+	    Long idRestaurant=plateObject.getRestaurant();
 	    
 	    Restaurant restaurantOwner = restaurantPersistencePort
-	            .findById(idRestaurant)
-	            .orElseThrow(RestaurantNotFoundException::new);
+	            .findById(idRestaurant);
 
 	
 	    
-	    if (enablePlateResquestDto.getIdentityDocumentOwner().equals(restaurantOwner.getIdentity_document_owner())) {
-	        plateObject.setActive(enablePlateResquestDto.getActive());
+	    if (enablePlateo.getIdentityDocumentOwner().equals(restaurantOwner.getIdentity_document_owner())) {
+	        plateObject.setActive(enablePlateo.getActive());
 	        
 	        Plate plateSave = platePersistencePort.updatePlate(plateObject);
 	        
 	        return new MessageResponse(
 	                String.format("Plate update Active with name: %s", plateSave.getNamePlate()));
 	    } else {
-	        throw new UserNotOwnerOfRestaurantException(); 
+	    	return new MessageResponse(
+	                String.format("The user is not the owner of the restaurant this plate belongs to",plateObject.getNamePlate()));
 	    }
 	}
 
