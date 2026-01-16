@@ -29,8 +29,7 @@ public class LoginRestController {
 		@ApiResponse(responseCode = "400", description = "Error de request"),
 		@ApiResponse(responseCode = "401", description = "No autorizado")})
 	@PostMapping(value="/login", produces = "application/json")
-	public ResponseEntity<AuthRespondeDto> login(@RequestBody LoginRequetDto request ) {		
-		
+	public ResponseEntity<AuthRespondeDto> login(@RequestBody LoginRequetDto request ) {				
 		return ResponseEntity.ok(loginHandler.login(request));
 	}
 

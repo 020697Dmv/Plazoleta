@@ -16,7 +16,7 @@ public class PlateValidation {
 		requeridoPriceValido(plate.getPrice(),"Plate");
 	}
 	
-public static void ValidatePlateEntity(final PlateEntity plate) {
+public static void ValidatePlateEntity(final Plate plate) {
 		
 		requeridoPriceValido(plate.getPrice(),"Plate");
 	}

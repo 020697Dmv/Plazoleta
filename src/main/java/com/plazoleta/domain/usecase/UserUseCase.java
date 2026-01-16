@@ -3,17 +3,14 @@ package com.plazoleta.domain.usecase;
 import com.plazoleta.domain.api.IUserServicePort;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Restaurant;
-import com.plazoleta.domain.model.RestaurantEmployee;
 import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IRestaurantEmployeePersistencePort;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
 import com.plazoleta.domain.spi.IUserPersistencePort;
 import com.plazoleta.domain.validacion.UserValidation;
 import com.plazoleta.infrastructure.exception.NotPermissionuserException;
-import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
 import com.plazoleta.infrastructure.exception.UserAlreadyExistException;
 import com.plazoleta.infrastructure.exception.UserNotFoundException;
-import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEmployeeEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
@@ -46,6 +43,10 @@ public class UserUseCase  implements IUserServicePort {
 
 	@Override
 	public MessageResponse saveUser(User user,Long idRestaurant) {
+		
+		/*
+		 * Esto debe ir en otre caso de uso donde se valide la autentificación
+		 */
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
 
@@ -82,27 +83,26 @@ public class UserUseCase  implements IUserServicePort {
 	    if (roleToCreate == Role.EMPLOYEE) {
 	        Long restaurantNit = idRestaurant; 
 	        
-	    
-	        Optional<Restaurant> restaurant= restaurantPersistencePort.findById(idRestaurant);
+	        //revisar
+	        Restaurant restaurant= restaurantPersistencePort.findById(idRestaurant);
 	        Restaurant restaurantSave= new Restaurant();
-	        restaurantSave.setNit(restaurant.get().getNit());
+	     /*   restaurantSave.setNit(restaurant.get().getNit());
 	        restaurantSave.setName(restaurant.get().getName());
 	        restaurantSave.setAddress(restaurant.get().getAddress());
 	        restaurantSave.setPhone(restaurant.get().getPhone());
 	        restaurantSave.setUrlLogo(restaurant.get().getUrlLogo());
-
+		*/
 	        User ownerRestaurantSave = userPersistencePort
-		            .findById(restaurant.get().getIdentity_document_owner())
+		            .findById(restaurant.getIdentity_document_owner())
 		            .orElseThrow(UserNotFoundException::new);	
 	        
 	        UserEntity userEntity = userEntityMapper.toEntity(ownerRestaurantSave);     
-		    RestaurantEntity restaurantEntity = restaurantEntityMapper.toEntity(restaurantSave);     	    
+		    RestaurantEntity restaurantEntity = restaurantEntityMapper.toEntity(restaurant);   
+		    //Revisar esto
 		    restaurantEntity.setPropietario(userEntity); 		    
 	        
-	        if(restaurant.isPresent()){
 	        	restaurantEmployeePersistencePort.saveRestaurantEmployee( restaurantEntity, user);	        
-	        }
-
+	        
 	    }
 	    
 	    
