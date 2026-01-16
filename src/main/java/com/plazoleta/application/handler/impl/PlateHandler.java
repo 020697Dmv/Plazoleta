@@ -16,6 +16,7 @@ import com.plazoleta.domain.api.IPlateServicePort;
 import com.plazoleta.domain.model.EnablePlate;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Plate;
+import com.plazoleta.domain.model.SearchPlate;
 import com.plazoleta.domain.model.UpdatePlate;
 
 import jakarta.transaction.Transactional;
@@ -33,7 +34,6 @@ public class PlateHandler implements IPlateHandler{
 	
 	@Override
 	public MessageResponse savePlate(PlateRequestDto plateRequestDto) {
-
 		Plate plate=plateRequestMapper.toPlate(plateRequestDto);
 		MessageResponse messageResponse=plateServicePort.savePlate(plate);
 		return messageResponse;
@@ -58,7 +58,8 @@ public class PlateHandler implements IPlateHandler{
 
 	@Override
 	public List<Plate> toResponseListPlates(SearchPlateRequestDto searchPlateRequestDto) {
-		List<Plate> plates=plateServicePort.toResponseList(searchPlateRequestDto);
+		SearchPlate searchPlate=plateResponseMapper.searchPlate(searchPlateRequestDto);
+		List<Plate> plates=plateServicePort.toResponseList(searchPlate);
 		
 		return plates;
 	}

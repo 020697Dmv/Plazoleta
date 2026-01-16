@@ -4,10 +4,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import com.plazoleta.application.dto.request.EnablePlateResquestDto;
+import com.plazoleta.application.dto.request.SearchPlateRequestDto;
 import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
 import com.plazoleta.application.dto.response.PlateResponseDto;
 import com.plazoleta.domain.model.EnablePlate;
 import com.plazoleta.domain.model.Plate;
+import com.plazoleta.domain.model.SearchPlate;
 import com.plazoleta.domain.model.UpdatePlate;
 
 @Mapper(componentModel = "spring",
@@ -20,5 +22,8 @@ public interface IPlateResponseMapper {
 	UpdatePlate toUpdatePlate(UpdatePlateRequestDto UpdatePlateRequestDto);
 	
 	EnablePlate toEnablePlate(EnablePlateResquestDto enablePlateResquestDto);
+	
+	SearchPlate searchPlate(SearchPlateRequestDto searchPlateRequestDto);
+
 
 }

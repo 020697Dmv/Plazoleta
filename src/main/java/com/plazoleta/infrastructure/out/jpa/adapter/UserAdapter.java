@@ -20,25 +20,32 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserAdapter implements IUserPersistencePort  {
 	
-	private final IUserRepository usuarioRepository;
-	private final IUserEntityMapper usuarioEntidadMapeo;
+	private final IUserRepository userRepository;
+	private final IUserEntityMapper userEntidadMapeo;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	
 	
 	@Override
 	public User saveUser(User user) {
-		//Pasword se debe hacer en el domain, por ser logica de negocio
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		UserEntity userEntity=usuarioRepository.save(usuarioEntidadMapeo.toEntity(user));
-		return usuarioEntidadMapeo.toUser(userEntity);
+		UserEntity userEntity=userRepository.save(userEntidadMapeo.toEntity(user));
+		return userEntidadMapeo.toUser(userEntity);
 	}
 
 
 	@Override
-	public Optional<User> findById(Long id) {
-	    return usuarioRepository.findById(id)
-	            .map(usuarioEntidadMapeo::toUser);
+	public User findById(Long id) {
+		Optional<UserEntity>userEntity=userRepository.findById(id);
+		
+		if(userEntity.isEmpty()) {
+			throw new  UserNotFoundException();
+		}		
+	    return  userEntidadMapeo.toUser(userEntity.get());
+	}
+
+
+	@Override
+	public boolean existsById(Long id) {
+		return userRepository.existsById(id);
 	}
 
 }

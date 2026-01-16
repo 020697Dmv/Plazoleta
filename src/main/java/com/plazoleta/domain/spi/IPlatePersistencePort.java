@@ -8,6 +8,7 @@ import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Plate;
 import com.plazoleta.domain.model.Restaurant;
+import com.plazoleta.domain.model.SearchPlate;
 import com.plazoleta.infrastructure.out.jpa.entity.PlateEntity;
 
 public interface IPlatePersistencePort {
@@ -20,7 +21,7 @@ public interface IPlatePersistencePort {
 	
 	Plate findyByIdEntity(Long id);
 	
-	List<Plate> toResponseList(SearchPlateRequestDto searchPlateRequestDto);
+	List<Plate> toResponseList(SearchPlate searchPlate);
 	
 	Optional<PlateEntity> findById(Long id);
 

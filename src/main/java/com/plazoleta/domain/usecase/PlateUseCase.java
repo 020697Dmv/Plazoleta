@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.plazoleta.application.dto.request.EnablePlateResquestDto;
-import com.plazoleta.application.dto.request.SearchPlateRequestDto;
 import com.plazoleta.domain.api.IPlateServicePort;
 import com.plazoleta.domain.model.EnablePlate;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Plate;
 import com.plazoleta.domain.model.Restaurant;
+import com.plazoleta.domain.model.SearchPlate;
 import com.plazoleta.domain.model.UpdatePlate;
 import com.plazoleta.domain.spi.IPlatePersistencePort;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
@@ -51,20 +50,13 @@ public class PlateUseCase implements IPlateServicePort{
 	@Override
 	public MessageResponse updateActivePlate(EnablePlate enablePlateo) {
 		
-	    Plate plateObject = platePersistencePort.findyByIdEntity(enablePlateo.getIdPlate());
-	    
-	    Long idRestaurant=plateObject.getRestaurant();
-	    
-	    Restaurant restaurantOwner = restaurantPersistencePort
-	            .findById(idRestaurant);
-
-	
+	    Plate plateObject = platePersistencePort.findyByIdEntity(enablePlateo.getIdPlate());	    
+	    Long idRestaurant=plateObject.getRestaurant();	    
+	    Restaurant restaurantOwner = restaurantPersistencePort.findById(idRestaurant);	
 	    
 	    if (enablePlateo.getIdentityDocumentOwner().equals(restaurantOwner.getIdentity_document_owner())) {
-	        plateObject.setActive(enablePlateo.getActive());
-	        
-	        Plate plateSave = platePersistencePort.updatePlate(plateObject);
-	        
+	        plateObject.setActive(enablePlateo.getActive());	        
+	        Plate plateSave = platePersistencePort.updatePlate(plateObject);	        
 	        return new MessageResponse(
 	                String.format("Plate update Active with name: %s", plateSave.getNamePlate()));
 	    } else {
@@ -74,9 +66,8 @@ public class PlateUseCase implements IPlateServicePort{
 	}
 
 	@Override
-	public List<Plate> toResponseList(SearchPlateRequestDto searchPlateRequestDto) {
-
-		return platePersistencePort.toResponseList(searchPlateRequestDto);
+	public List<Plate> toResponseList(SearchPlate searchPlate) {
+		return platePersistencePort.toResponseList(searchPlate);
 	}
 
 }
