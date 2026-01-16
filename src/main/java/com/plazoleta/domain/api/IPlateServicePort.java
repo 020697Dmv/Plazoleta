@@ -8,6 +8,7 @@ import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
 import com.plazoleta.domain.model.EnablePlate;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Plate;
+import com.plazoleta.domain.model.SearchPlate;
 import com.plazoleta.domain.model.UpdatePlate;
 
 public interface IPlateServicePort {
@@ -18,6 +19,6 @@ public interface IPlateServicePort {
 
 	MessageResponse updateActivePlate(EnablePlate enablePlate);
 	
-	List<Plate> toResponseList(SearchPlateRequestDto searchPlateRequestDto);
+	List<Plate> toResponseList(SearchPlate searchPlate);
 
 }

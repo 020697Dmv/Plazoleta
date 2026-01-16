@@ -29,9 +29,7 @@ public class RestaurantUseCase  implements IRestaurantServicePort{
 	@Override
 	public MessageResponse saveRestaurant(Restaurant restaurant) {
 
-	    User owner = userPersistencePort
-	            .findById(restaurant.getIdentity_document_owner())
-	            .orElseThrow(UserNotFoundException::new);	       
+	    User owner = userPersistencePort.findById(restaurant.getIdentity_document_owner());	       
 	    
 	    restaurantPersistencePort.findById(restaurant.getNit());
 	    RestaurantValidation.validateRestaurant(restaurant);	    

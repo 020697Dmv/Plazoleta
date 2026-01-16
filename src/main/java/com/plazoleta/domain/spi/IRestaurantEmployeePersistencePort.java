@@ -10,7 +10,7 @@ import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 public interface IRestaurantEmployeePersistencePort {
 	
 	RestaurantEmployee saveRestaurantEmployee(
-			RestaurantEntity restaurant,User user);
+			Restaurant restaurant,User userOwner, User userCreate);
 	
 	Optional<RestaurantEmployee> findBy(Long id);
 	

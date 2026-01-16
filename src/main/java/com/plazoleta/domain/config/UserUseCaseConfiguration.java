@@ -15,9 +15,8 @@ import org.springframework.context.annotation.Configuration;
 
 public class UserUseCaseConfiguration {
     public IUserServicePort usuarioServicioPort(IUserPersistencePort userPersistencePort,IRestaurantEmployeePersistencePort restaurantEmployeePersistencePort,
-    		IRestaurantPersistencePort restaurantPersistencePort,IUserEntityMapper userEntityMapper,
-    		IRestaurantEntityMapper  restaurantEntityMapper	) {
-        return new UserUseCase(userPersistencePort, restaurantEmployeePersistencePort, restaurantPersistencePort, userEntityMapper, restaurantEntityMapper);
+    		IRestaurantPersistencePort restaurantPersistencePort) {
+        return new UserUseCase(userPersistencePort, restaurantEmployeePersistencePort, restaurantPersistencePort);
     }
 
     public IUserPersistencePort usuarioPersistencePort(IUserRepository usuarioRepository, IUserEntityMapper usuarioEntidadMapeo) {

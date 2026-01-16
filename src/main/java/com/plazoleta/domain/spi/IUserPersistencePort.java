@@ -7,5 +7,7 @@ import com.plazoleta.domain.model.User;
 public interface IUserPersistencePort {
 	User saveUser(User usuario);
 	
-	Optional<User>  findById(Long id);
+	User  findById(Long id);
+	
+	boolean existsById(Long id);
 }
