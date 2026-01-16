@@ -35,10 +35,13 @@ public class RestaurantEmployeeAdapter implements IRestaurantEmployeePersistence
 
 	
 	@Override
-	public RestaurantEmployee saveRestaurantEmployee( RestaurantEntity restaurantEntity,
-			User user) {
-
-		UserEntity userEntity = userEntityMapper.toEntity(user);
+	public RestaurantEmployee saveRestaurantEmployee( Restaurant restaurant,User ownerRestaurantSave, User userCreate) {
+		
+		 
+        UserEntity userEntityOwner = userEntityMapper.toEntity(ownerRestaurantSave);     
+	    RestaurantEntity restaurantEntity = restaurantEntityMapper.toEntity(restaurant);   
+	    restaurantEntity.setPropietario(userEntityOwner); 		
+		UserEntity userEntity = userEntityMapper.toEntity(userCreate);
 	    RestaurantEmployeeEntity restaurantEmployeeEntity= new RestaurantEmployeeEntity();
 	    restaurantEmployeeEntity.setEmployee(userEntity);
 	    restaurantEmployeeEntity.setRestaurant(restaurantEntity);

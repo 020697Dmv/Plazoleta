@@ -188,11 +188,11 @@ public class OrderUseCase  implements IOrderServicePort{
 		    	    })
 		    	    .orElseThrow(() -> new OrderNotFoundException()); 
 		
-		Optional<User> userNotify=userPersistencePort.findById(orderSaveEntity.getClientId());
+		User userNotify=userPersistencePort.findById(orderSaveEntity.getClientId());
 		 
 		SmsRequestDto smsRequestDto= new SmsRequestDto();
 		
-		smsRequestDto.setPhoneNumber(userNotify.get().getPhone());
+		smsRequestDto.setPhoneNumber(userNotify.getPhone());
 		
 		smsRequestDto.setMessage("Your order code is: " +securityPin);
 		smsSenderPersistencePort.sendSmd(smsRequestDto);
