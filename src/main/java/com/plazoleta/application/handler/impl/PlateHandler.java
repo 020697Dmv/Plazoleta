@@ -59,8 +59,7 @@ public class PlateHandler implements IPlateHandler{
 	@Override
 	public List<Plate> toResponseListPlates(SearchPlateRequestDto searchPlateRequestDto) {
 		SearchPlate searchPlate=plateResponseMapper.searchPlate(searchPlateRequestDto);
-		List<Plate> plates=plateServicePort.toResponseList(searchPlate);
-		
+		List<Plate> plates=plateServicePort.toResponseList(searchPlate);		
 		return plates;
 	}
 	

@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.plazoleta.application.dto.request.AssignOrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
+import com.plazoleta.domain.model.AssignOrderRequest;
 import com.plazoleta.domain.model.OrderListModel;
+import com.plazoleta.domain.model.OrderStatusRequest;
 import com.plazoleta.domain.spi.IOrderPersistencePort;
 import com.plazoleta.infrastructure.exception.OrderNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
@@ -40,11 +42,11 @@ public class OrderAdapter implements IOrderPersistencePort{
 	}
 
 	@Override
-	public List<OrderListModel> toResponseList(OrderStatusRequestDto orderStatusRequestDto, Long idRestaurant) {
+	public List<OrderListModel> toResponseList(OrderStatusRequest orderStatusRequestDto, Long idRestaurant) {
 	    
 	    Pageable pageableResponse = PageRequest.of(
-	        orderStatusRequestDto.getPageRequestDto().getPage(),
-	        orderStatusRequestDto.getPageRequestDto().getSize()
+	        orderStatusRequestDto.getPageRequest().getPage(),
+	        orderStatusRequestDto.getPageRequest().getSize()
 	    );
 	    
 	    Page<OrderEntity> orderPage = orderRepository.findAllByRestaurantNitAndStatus(
@@ -63,11 +65,11 @@ public class OrderAdapter implements IOrderPersistencePort{
 	}
 
 	@Override
-	public List<OrderListModel> asignnedStatusAsign(AssignOrderRequestDto assignOrderRequestDto, Long idRestaurant,OrderEntity orderEntity) {
+	public List<OrderListModel> asignnedStatusAsign(AssignOrderRequest assignOrderRequest, Long idRestaurant,OrderEntity orderEntity) {
 		
 		Pageable pageableResponse = PageRequest.of(
-				assignOrderRequestDto.getPageRequestDto().getPage(),
-				assignOrderRequestDto.getPageRequestDto().getSize()
+				assignOrderRequest.getPageRequest().getPage(),
+				assignOrderRequest.getPageRequest().getSize()
 		    );
 		 Page<OrderEntity> orderPage = orderRepository.findAllByRestaurantNit(
 			        idRestaurant, pageableResponse);

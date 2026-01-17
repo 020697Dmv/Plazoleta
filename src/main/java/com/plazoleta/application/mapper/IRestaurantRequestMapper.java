@@ -3,7 +3,9 @@ package com.plazoleta.application.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import com.plazoleta.application.dto.request.PageRequestDto;
 import com.plazoleta.application.dto.request.RestaurantRequestDto;
+import com.plazoleta.domain.model.PageRequest;
 import com.plazoleta.domain.model.Restaurant;
 
 @Mapper(componentModel = "spring",
@@ -12,5 +14,7 @@ unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IRestaurantRequestMapper {
 	
 	Restaurant toRestaurant(RestaurantRequestDto restaurantRequestDto);
+	
+	PageRequest toPageRequest(PageRequestDto pageRequestDto);
 
 }

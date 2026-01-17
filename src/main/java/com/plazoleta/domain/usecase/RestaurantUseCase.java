@@ -4,16 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.plazoleta.application.dto.request.PageRequestDto;
 import com.plazoleta.domain.api.IRestaurantServicePort;
 import com.plazoleta.domain.model.MessageResponse;
+import com.plazoleta.domain.model.PageRequest;
 import com.plazoleta.domain.model.Restaurant;
 import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
 import com.plazoleta.domain.spi.IUserPersistencePort;
 import com.plazoleta.domain.validacion.RestaurantValidation;
-import com.plazoleta.infrastructure.exception.RestaurantsNotExistsException;
-import com.plazoleta.infrastructure.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,13 +39,10 @@ public class RestaurantUseCase  implements IRestaurantServicePort{
 
 
 	@Override
-	public List<Restaurant> getAllRestaurants(PageRequestDto pageRequestDto) {
+	public List<Restaurant> getAllRestaurants(PageRequest pageRequest) {
 		List<Restaurant> restaurants=restaurantPersistencePort
-				.getAllRestaurants(pageRequestDto.getPage(), pageRequestDto.getSize());
+				.getAllRestaurants(pageRequest.getPage(), pageRequest.getSize());
 		
-		if (restaurants == null || restaurants.isEmpty()) {
-	        throw new RestaurantsNotExistsException();
-	    }
 		return restaurants;
 	}
 
