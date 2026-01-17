@@ -12,12 +12,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.plazoleta.application.dto.request.AssignOrderRequestDto;
-import com.plazoleta.application.dto.request.OrderRequestDto;
-import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.application.dto.request.SmsRequestDto;
 import com.plazoleta.domain.api.IOrderServicePort;
+import com.plazoleta.domain.model.AssignOrderRequest;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.OrderListModel;
+import com.plazoleta.domain.model.OrderRequest;
+import com.plazoleta.domain.model.OrderStatusRequest;
 import com.plazoleta.domain.model.RestaurantEmployee;
 import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IOrderPersistencePort;
@@ -36,7 +37,6 @@ import com.plazoleta.infrastructure.out.jpa.entity.OrderPlateEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.PlateEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
-import com.plazoleta.infrastructure.out.jpa.mapper.IPlateEntityMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -60,7 +60,7 @@ public class OrderUseCase  implements IOrderServicePort{
 
 	
 	@Override
-	public MessageResponse saveOrder(OrderRequestDto orderRequestDto) {
+	public MessageResponse saveOrder(OrderRequest orderRequestDto) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
@@ -111,7 +111,7 @@ public class OrderUseCase  implements IOrderServicePort{
 
 
 	@Override
-	public List<OrderListModel> orders(OrderStatusRequestDto orderStatusRequestDto) {
+	public List<OrderListModel> orders(OrderStatusRequest orderStatusRequest) {
 		
 		  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
@@ -125,14 +125,14 @@ public class OrderUseCase  implements IOrderServicePort{
 	        throw new RestaurantEmployeeNotFoundException();
 		}
 		
-		List<OrderListModel> ordersIdRestaurant=orderPersistencePort.toResponseList(orderStatusRequestDto,restaruantEmployeeId.get().getIdRestaurant());
+		List<OrderListModel> ordersIdRestaurant=orderPersistencePort.toResponseList(orderStatusRequest,restaruantEmployeeId.get().getIdRestaurant());
 	
 		return ordersIdRestaurant;
 	}
 
 
 	@Override
-	public List<OrderListModel> ordersAsignStatus(AssignOrderRequestDto assignOrderRequestDto) {
+	public List<OrderListModel> ordersAsignStatus(AssignOrderRequest assignOrderRequest) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
@@ -145,7 +145,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	        throw new RestaurantEmployeeNotFoundException();
 		}
 	    
-	    OrderEntity orderSaveEntity = orderPersistencePort.findById(assignOrderRequestDto.getOrderId(),restaruantEmployeeId.get().getIdRestaurant())
+	    OrderEntity orderSaveEntity = orderPersistencePort.findById(assignOrderRequest.getOrderId(),restaruantEmployeeId.get().getIdRestaurant())
 	    	    .map(order -> {
 	    	        order.setFkEmployeeId(idEmpleado); 
 	    	        
@@ -155,7 +155,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	    	    })
 	    	    .orElseThrow(() -> new OrderNotFoundException()); 
 	    
-		List<OrderListModel> ordersIdRestaurant=orderPersistencePort.asignnedStatusAsign(assignOrderRequestDto,restaruantEmployeeId.get().getIdRestaurant(),orderSaveEntity);
+		List<OrderListModel> ordersIdRestaurant=orderPersistencePort.asignnedStatusAsign(assignOrderRequest,restaruantEmployeeId.get().getIdRestaurant(),orderSaveEntity);
 
 		return ordersIdRestaurant;
 	}

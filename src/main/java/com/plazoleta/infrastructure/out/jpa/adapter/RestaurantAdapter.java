@@ -5,21 +5,21 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.plazoleta.application.dto.request.PageRequestDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import com.plazoleta.domain.model.Restaurant;
 import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IRestaurantPersistencePort;
-import com.plazoleta.infrastructure.exception.RestaurantAlreadyExistException;
 import com.plazoleta.infrastructure.exception.RestaurantNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
 import com.plazoleta.infrastructure.out.jpa.mapper.IUserEntityMapper;
 import com.plazoleta.infrastructure.out.jpa.repository.IRestaurantRepository;
-import com.plazoleta.infrastructure.out.jpa.repository.IUserRepository;
-import org.springframework.data.domain.PageRequest; 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+
 
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
@@ -55,7 +55,13 @@ public class RestaurantAdapter  implements IRestaurantPersistencePort{
 	public List<Restaurant> getAllRestaurants(int page, int size) {
 	    Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
 	    
-	    return restaurantRepository.findAll(pageable)
+	    Page<RestaurantEntity> restaurantPage = restaurantRepository.findAll(pageable);
+	    
+	    if (restaurantPage.isEmpty()) {
+	        throw new RestaurantNotFoundException();
+	    }
+	    
+	    return restaurantPage
 	            .map(restaurantEntityMapper::toRestaurant)
 	            .getContent();
 	}

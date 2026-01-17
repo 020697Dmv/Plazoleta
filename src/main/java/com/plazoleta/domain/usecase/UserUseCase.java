@@ -50,9 +50,7 @@ public class UserUseCase  implements IUserServicePort {
 	            .anyMatch(a -> a.getAuthority().equals(Role.ADMINISTRATOR.name()));
 	    boolean isAuthOwner = authorities.stream()
 	            .anyMatch(a -> a.getAuthority().equals(Role.OWNER.name()));
-	    boolean isAuthEmployee = authorities.stream()
-	            .anyMatch(a -> a.getAuthority().equals(Role.EMPLOYEE.name()));
-	
+	 	
 	    
 	    Role roleToCreate = user.getRole();
 
