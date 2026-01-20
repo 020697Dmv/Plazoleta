@@ -9,22 +9,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.plazoleta.application.dto.request.AssignOrderRequestDto;
-import com.plazoleta.application.dto.request.LoginRequetDto;
 import com.plazoleta.application.dto.request.OrderRequestDto;
 import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.application.dto.request.PageRequestDto;
-import com.plazoleta.application.dto.request.SearchPlateRequestDto;
-import com.plazoleta.application.dto.request.SmsRequestDto;
-import com.plazoleta.application.dto.response.AuthRespondeDto;
-import com.plazoleta.application.handler.ILoginHandler;
 import com.plazoleta.application.handler.IOrderHandler;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.OrderListModel;
-import com.plazoleta.domain.model.Orders;
-import com.plazoleta.domain.model.Plate;
-import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
+
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

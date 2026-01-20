@@ -1,9 +1,9 @@
 package com.plazoleta.domain.spi;
 
-import com.plazoleta.application.dto.request.SmsRequestDto;
+import com.plazoleta.domain.model.SmsRequest;
 
 public interface ISmsSenderPersistencePort {
 	
-	void sendSmd(SmsRequestDto smsrequest);
+	void sendSmd(SmsRequest smsrequest);
 
 }

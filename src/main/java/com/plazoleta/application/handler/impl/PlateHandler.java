@@ -9,7 +9,6 @@ import com.plazoleta.application.dto.request.PlateRequestDto;
 import com.plazoleta.application.dto.request.SearchPlateRequestDto;
 import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
 import com.plazoleta.application.handler.IPlateHandler;
-import com.plazoleta.application.mapper.IMensaggeResponseMapper;
 import com.plazoleta.application.mapper.IPlateRequestMapper;
 import com.plazoleta.application.mapper.IPlateResponseMapper;
 import com.plazoleta.domain.api.IPlateServicePort;

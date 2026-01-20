@@ -14,7 +14,7 @@ public interface IRestaurantEmployeePersistencePort {
 	
 	Optional<RestaurantEmployee> findBy(Long id);
 	
-	Optional<RestaurantEmployee> findByIdEmployee(Long id);
+	RestaurantEmployee findByIdEmployee(Long id);
 
 
 }

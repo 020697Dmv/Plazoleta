@@ -8,6 +8,7 @@ import com.plazoleta.domain.model.Restaurant;
 import com.plazoleta.domain.model.RestaurantEmployee;
 import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IRestaurantEmployeePersistencePort;
+import com.plazoleta.infrastructure.exception.RestaurantEmployeeNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEmployeeEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
@@ -59,9 +60,12 @@ public class RestaurantEmployeeAdapter implements IRestaurantEmployeePersistence
 
 
 	@Override
-	public Optional<RestaurantEmployee> findByIdEmployee(Long id) {
-		
-		return restaurantEmployeeRepository.findByEmployeeId(id).map(restaurantEmployeeMapper::toDomain);
+	public RestaurantEmployee findByIdEmployee(Long id) {
+		Optional<RestaurantEmployeeEntity> restaurantEmployeeEntity=restaurantEmployeeRepository.findByEmployeeId(id);
+		if(restaurantEmployeeEntity.isEmpty()) {
+			throw new RestaurantEmployeeNotFoundException();
+		}
+		return restaurantEmployeeMapper.toDomain(restaurantEmployeeEntity.get());
 	}
 	
 	
