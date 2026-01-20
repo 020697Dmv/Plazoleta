@@ -1,4 +1,4 @@
-package com.plazoleta.infrastructure.exception;
+package com.plazoleta.domain.exception;
 
 public class NotPermissionuserException extends RuntimeException {
 

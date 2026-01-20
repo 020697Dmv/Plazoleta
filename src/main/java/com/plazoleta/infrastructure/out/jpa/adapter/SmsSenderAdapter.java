@@ -3,7 +3,7 @@ package com.plazoleta.infrastructure.out.jpa.adapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.plazoleta.application.dto.request.SmsRequestDto;
+import com.plazoleta.domain.model.SmsRequest;
 import com.plazoleta.domain.spi.ISmsSenderPersistencePort;
 import com.plazoleta.infrastructure.config.TwilioConfiguration;
 import com.plazoleta.infrastructure.out.jpa.mapper.IOrderEntityMapper;
@@ -30,7 +30,7 @@ public class SmsSenderAdapter implements ISmsSenderPersistencePort{
 	}
 
 	@Override
-	public void sendSmd(SmsRequestDto smsrequest) {
+	public void sendSmd(SmsRequest smsrequest) {
 		
 		 PhoneNumber to = new PhoneNumber(smsrequest.getPhoneNumber());
          PhoneNumber from = new PhoneNumber(twilioConfiguration.getTrialNumber());
