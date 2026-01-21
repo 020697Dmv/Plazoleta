@@ -50,18 +50,20 @@ public class PlateUseCase implements IPlateServicePort{
 	@Override
 	public MessageResponse updateActivePlate(EnablePlate enablePlateo) {
 		
-	    Plate plateObject = platePersistencePort.findyByIdEntity(enablePlateo.getIdPlate());	    
-	    Long idRestaurant=plateObject.getRestaurant();	    
-	    Restaurant restaurantOwner = restaurantPersistencePort.findById(idRestaurant);	
-	    
-	    if (enablePlateo.getIdentityDocumentOwner().equals(restaurantOwner.getIdentity_document_owner())) {
-	        plateObject.setActive(enablePlateo.getActive());	        
-	        Plate plateSave = platePersistencePort.updatePlate(plateObject);	        
+	    Plate plateObject = platePersistencePort.findyByIdEntity(enablePlateo.getIdPlate());
+	    	Long idRestaurant=plateObject.getRestaurant();
+	    	Restaurant restaurantOwner = restaurantPersistencePort.findById(idRestaurant);
+
+	    	if (enablePlateo.getIdentityDocumentOwner().equals(restaurantOwner.getIdentity_document_owner())) {
+	        plateObject.setActive(enablePlateo.getActive());
+
+	        Plate plateSave = platePersistencePort.updatePlate(plateObject);
+
 	        return new MessageResponse(
 	                String.format("Plate update Active with name: %s", plateSave.getNamePlate()));
 	    } else {
 	    	return new MessageResponse(
-	                String.format("The user is not the owner of the restaurant this plate belongs to",plateObject.getNamePlate()));
+	                "The user is not the owner of the restaurant this plate belongs to");
 	    }
 	}
 
