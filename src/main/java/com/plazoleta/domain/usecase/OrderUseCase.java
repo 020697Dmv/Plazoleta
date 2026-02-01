@@ -52,8 +52,13 @@ public class OrderUseCase  implements IOrderServicePort{
 
 	private final ISmsSenderPersistencePort smsSenderPersistencePort;
 
+	private static final String STATUSPENDIENTE = "PENDIENTE";  // Compliant
 
-	
+	private static final String STATUSLISTO = "LISTO";  // Compliant
+
+	private static final Random RANDOM = new Random();
+
+
 	@Override
 	public MessageResponse saveOrder(OrderRequest orderRequestDto) {
 		
@@ -67,9 +72,9 @@ public class OrderUseCase  implements IOrderServicePort{
 			} else {
 			throw new UserNotFoundException();
 			}
-	    List<String> inProcessStatuses = List.of("PENDIENTE", "EN_PREPARACION", "LISTO");
+	    List<String> inProcessStatuses = List.of(STATUSPENDIENTE, "EN_PREPARACION", STATUSLISTO);
 	    if (orderPersistencePort.existsByClientIdAndStatusIn(clientId, inProcessStatuses)) {
-	        return new MessageResponse(String.format("Ya tienes un pedido en curso.", clientId));
+	        return new MessageResponse("Ya tienes un pedido en curso."+ clientId);
 	    }
 
 	    RestaurantEntity restaurant = restaurantPersistencePort.findByIdEntity(orderRequestDto.getRestaurantId())
@@ -78,7 +83,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	    OrderEntity orderEntity = new OrderEntity();
 	    orderEntity.setClientId(clientId);
 	    orderEntity.setDate(LocalDateTime.now());
-	    orderEntity.setStatus("PENDIENTE"); 
+	    orderEntity.setStatus(STATUSPENDIENTE);
 	    orderEntity.setRestaurant(restaurant); 
 
 	    List<OrderPlateEntity> plates = orderRequestDto.getPlates().stream().map(dto -> {
@@ -115,9 +120,8 @@ public class OrderUseCase  implements IOrderServicePort{
 		RestaurantEmployee restaruantEmployeeId=restaurantEmployeePersistencePort.findByIdEmployee(idEmpleado);
 
 		
-		List<OrderListModel> ordersIdRestaurant=orderPersistencePort.toResponseList(orderStatusRequest,restaruantEmployeeId.getIdRestaurant());
-	
-		return ordersIdRestaurant;
+	return orderPersistencePort.toResponseList(orderStatusRequest,restaruantEmployeeId.getIdRestaurant());
+
 	}
 
 
@@ -142,9 +146,8 @@ public class OrderUseCase  implements IOrderServicePort{
 	    	    })
 	    	    .orElseThrow(() -> new OrderNotFoundException()); 
 	    
-		List<OrderListModel> ordersIdRestaurant=orderPersistencePort.asignnedStatusAsign(assignOrderRequest,restaruantEmployeeId.getIdRestaurant(),orderSaveEntity);
+		return orderPersistencePort.asignnedStatusAsign(assignOrderRequest,restaruantEmployeeId.getIdRestaurant(),orderSaveEntity);
 
-		return ordersIdRestaurant;
 	}
 
 
@@ -160,12 +163,12 @@ public class OrderUseCase  implements IOrderServicePort{
 	    
 		
 		
-		String securityPin = String.format("%06d", new Random().nextInt(999999));
+		String securityPin = String.format("%06d", RANDOM.nextInt(999999));
 		
 	 
 		 OrderEntity orderSaveEntity = orderPersistencePort.findById(orderId,restaruantEmployeeId.getIdRestaurant())
 		    	    .map(order -> {
-		    	    	order.setStatus("LISTO");
+		    	    	order.setStatus(STATUSLISTO);
 
 		    	    	order.setSecurityPin(securityPin);
 		    	        return order;
@@ -199,7 +202,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	    		restaruantEmployeeId.getIdEmployee())
 	    	    .map(order -> {
 	    	    	
-	    	    	if(secutiryCode.equals(order.getSecurityPin()) && "LISTO".equals(order.getStatus())) {
+	    	    	if(secutiryCode.equals(order.getSecurityPin()) && STATUSLISTO.equals(order.getStatus())) {
 		    	    	order.setStatus("ENTREGADO");
 
 	    	    	} else {
@@ -214,7 +217,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	
 		orderPersistencePort.saveOrder(orderSaveEntity);
 		
-	    return new MessageResponse(String.format("The order status has been updated to Delivered, client ID: ", orderId));
+	    return new MessageResponse("The order status has been updated to Delivered, client ID: "+ orderId);
 	}
 
 
@@ -227,7 +230,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	    OrderEntity orderSaveEntity = orderPersistencePort.findByIdAndClientId(orderId, idEmpleado)
 	    	    .map(order -> {
 	    	    	
-	    	    	if("PENDIENTE".equals(order.getStatus())) {
+	    	    	if(STATUSPENDIENTE.equals(order.getStatus())) {
 		    	    	order.setStatus("CANCELADO");
 
 	    	    	} else {
@@ -242,7 +245,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	
 		orderPersistencePort.saveOrder(orderSaveEntity);
 		
-	    return new MessageResponse(String.format("The order status has been updated to Delivered, client ID: ", orderId));
+	    return new MessageResponse("The order status has been updated to Delivered, client ID: "+ orderId);
 	}
 	
 
