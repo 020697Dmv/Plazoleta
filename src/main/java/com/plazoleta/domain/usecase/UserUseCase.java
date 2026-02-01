@@ -10,7 +10,6 @@ import com.plazoleta.domain.spi.IUserPersistencePort;
 import com.plazoleta.domain.validacion.UserValidation;
 import com.plazoleta.infrastructure.out.jpa.util.Role;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,12 +28,11 @@ public class UserUseCase  implements IUserServicePort {
 	
 	private final IRestaurantEmployeePersistencePort restaurantEmployeePersistencePort;
 	
-	private final IRestaurantPersistencePort restaurantPersistencePort;	
+	private final IRestaurantPersistencePort restaurantPersistencePort;
 
-	
-	@Autowired
+	private static final String MESSAGE_PERMISSION = "You do not have permission to perform this action";
+
 	private  PasswordEncoder passwordEncoder;
-
 
 
 	@Override
@@ -43,8 +41,7 @@ public class UserUseCase  implements IUserServicePort {
 		
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
-	    System.out.println(Role.OWNER);
-	    System.out.println(authorities.stream());
+
 
 	    boolean isAuthAdmin = authorities.stream()
 	            .anyMatch(a -> a.getAuthority().equals(Role.ADMINISTRATOR.name()));
@@ -56,17 +53,17 @@ public class UserUseCase  implements IUserServicePort {
 
 	    if (roleToCreate == Role.OWNER && !isAuthAdmin) {
 	    	return new MessageResponse(
-	    			"You do not have permission to perform this action");
+					MESSAGE_PERMISSION);
 	    }
 
 	    if (roleToCreate == Role.EMPLOYEE && !isAuthOwner) {
 	    	return new MessageResponse(
-	    			"You do not have permission to perform this action");
+					MESSAGE_PERMISSION);
 	    }
 
 	    if (roleToCreate == Role.ADMINISTRATOR) {
 	    	return new MessageResponse(
-	    			"You do not have permission to perform this action");
+					MESSAGE_PERMISSION);
 	    }
 
 	    if (userPersistencePort.existsById(user.getId())) {

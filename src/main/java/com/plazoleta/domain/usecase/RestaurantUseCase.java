@@ -40,10 +40,9 @@ public class RestaurantUseCase  implements IRestaurantServicePort{
 
 	@Override
 	public List<Restaurant> getAllRestaurants(PageRequest pageRequest) {
-		List<Restaurant> restaurants=restaurantPersistencePort
+		return restaurantPersistencePort
 				.getAllRestaurants(pageRequest.getPage(), pageRequest.getSize());
-		
-		return restaurants;
+
 	}
 
 

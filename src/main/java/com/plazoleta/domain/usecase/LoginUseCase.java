@@ -6,8 +6,7 @@ import com.plazoleta.application.dto.request.LoginRequetDto;
 import com.plazoleta.application.dto.response.AuthRespondeDto;
 import com.plazoleta.domain.api.ILoginServicePort;
 import com.plazoleta.domain.spi.ILoginPersistencePort;
-import com.plazoleta.domain.spi.IPlatePersistencePort;
-import com.plazoleta.domain.spi.IRestaurantPersistencePort;
+
 
 import lombok.RequiredArgsConstructor;
 
