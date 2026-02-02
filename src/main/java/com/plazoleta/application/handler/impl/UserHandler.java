@@ -24,8 +24,7 @@ public class UserHandler implements  IUserHandler {
 	@Override
 	public MessageResponse saveUser(UserRequesteDto usuarioRequesteDto) {
 		User usuario=userRequestMapper.aUsuario(usuarioRequesteDto);
-		MessageResponse messageResponse=usuarioServicioPort.saveUser(usuario,usuarioRequesteDto.getIdRestaurant());
-		return messageResponse;
+		return usuarioServicioPort.saveUser(usuario,usuarioRequesteDto.getIdRestaurant());
 	}
 
 }

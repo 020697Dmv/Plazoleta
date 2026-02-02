@@ -6,16 +6,13 @@ import org.springframework.stereotype.Service;
 import com.plazoleta.domain.model.SmsRequest;
 import com.plazoleta.domain.spi.ISmsSenderPersistencePort;
 import com.plazoleta.infrastructure.config.TwilioConfiguration;
-import com.plazoleta.infrastructure.out.jpa.mapper.IOrderEntityMapper;
-import com.plazoleta.infrastructure.out.jpa.repository.IOrderPlateRepository;
-import com.plazoleta.infrastructure.out.jpa.repository.IOrderRepository;
+
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.rest.api.v2010.account.MessageCreator;
 import com.twilio.type.PhoneNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lombok.RequiredArgsConstructor;
 
 @Service
 public class SmsSenderAdapter implements ISmsSenderPersistencePort{

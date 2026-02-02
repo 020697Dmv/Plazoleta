@@ -1,6 +1,6 @@
 package com.plazoleta.infrastructure.config;
 
-import org.hibernate.ObjectNotFoundException;
+import com.plazoleta.infrastructure.out.jpa.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.plazoleta.infrastructure.out.jpa.repository.IUserRepository;
 
 @Configuration
 public class SecurityBeansInjector {

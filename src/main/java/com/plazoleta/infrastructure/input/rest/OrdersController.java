@@ -21,7 +21,6 @@ import com.plazoleta.domain.model.OrderListModel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +37,9 @@ public class OrdersController {
 		        summary = "Place a new order",
 		        description = "Allows a registered client to create an order. The system validates that the client does not have an active order in progress."
 		    )
-		    @ApiResponses({
-		        @ApiResponse(responseCode = "201", description = "Order created successfully"),
-		        @ApiResponse(description = "Invalid input data", responseCode = "400"),
+		        @ApiResponse(responseCode = "201", description = "Order created successfully")
+		        @ApiResponse(description = "Invalid input data", responseCode = "400")
 		        @ApiResponse(description = "Client already has an active order", responseCode = "409")
-		    })
 	 @PostMapping(value="/saveOrder", produces = "application/json")
 	public ResponseEntity<MessageResponse> saveOrder(@RequestBody OrderRequestDto request ) {		
 		
@@ -101,11 +98,11 @@ public class OrdersController {
 	    }
 	
 	@Operation(summary = "updateDeliveredOrder", description = "Add a status Delivered Order")
-	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Exitoso"),
-		@ApiResponse(responseCode = "204", description = "No hay información"),
-		@ApiResponse(responseCode = "500", description = "Error interno"),
-		@ApiResponse(responseCode = "400", description = "Error de request"),
-		@ApiResponse(responseCode = "401", description = "No autorizado")})
+	 @ApiResponse(responseCode = "200", description = "Exitoso")
+		@ApiResponse(responseCode = "204", description = "No hay información")
+		@ApiResponse(responseCode = "500", description = "Error interno")
+		@ApiResponse(responseCode = "400", description = "Error de request")
+		@ApiResponse(responseCode = "401", description = "No autorizado")
 	@PostMapping(value="/updateDeliveredOrder", produces = "application/json")
 	public ResponseEntity<MessageResponse> updateDeliveredOrder(@Valid 
 	        @RequestParam String secutiryCode,
@@ -115,11 +112,11 @@ public class OrdersController {
 	}
 	
 	@Operation(summary = "cancelOrder", description = "Cancel Order")
-	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Exitoso"),
-		@ApiResponse(responseCode = "204", description = "No hay información"),
-		@ApiResponse(responseCode = "500", description = "Error interno"),
-		@ApiResponse(responseCode = "400", description = "Error de request"),
-		@ApiResponse(responseCode = "401", description = "No autorizado")})
+	 @ApiResponse(responseCode = "200", description = "Exitoso")
+		@ApiResponse(responseCode = "204", description = "No hay información")
+		@ApiResponse(responseCode = "500", description = "Error interno")
+		@ApiResponse(responseCode = "400", description = "Error de request")
+		@ApiResponse(responseCode = "401", description = "No autorizado")
 	@PostMapping(value="/cancelOrder", produces = "application/json")
 	public ResponseEntity<MessageResponse> cancelDeliveredOrder(@Valid 
 	        @RequestParam Long orderId ) {		

@@ -2,7 +2,6 @@ package com.plazoleta.infrastructure.out.jpa.adapter;
 
 import com.plazoleta.domain.model.User;
 import com.plazoleta.domain.spi.IUserPersistencePort;
-import com.plazoleta.infrastructure.exception.UserAlreadyExistException;
 import com.plazoleta.infrastructure.exception.UserNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
 import com.plazoleta.infrastructure.out.jpa.mapper.IUserEntityMapper;
@@ -12,8 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor

@@ -13,13 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plazoleta.application.dto.response.RestaurantPageResponseDto;
 import com.plazoleta.application.dto.request.PageRequestDto;
 import com.plazoleta.application.dto.request.RestaurantRequestDto;
-import com.plazoleta.application.dto.request.UserRequesteDto;
-import com.plazoleta.application.dto.response.StringResponseDto;
 import com.plazoleta.application.handler.IRestaurantHandler;
-import com.plazoleta.application.handler.IUserHandler;
 import com.plazoleta.application.mapper.IRestaurantResponseMapper;
 import com.plazoleta.domain.model.MessageResponse;
-import com.plazoleta.domain.model.Restaurant;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

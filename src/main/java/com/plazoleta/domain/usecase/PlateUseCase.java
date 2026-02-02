@@ -30,7 +30,7 @@ public class PlateUseCase implements IPlateServicePort{
 		
 		Restaurant restaurantOwner=restaurantPersistencePort
 				.findById(plate.getRestaurant());
-		PlateValidation.ValidatePlate(plate);
+		PlateValidation.validatePlate(plate);
 		Plate plateSave=platePersistencePort.savePlate(plate, restaurantOwner);
 		return new MessageResponse(
 	            "Plate created with name %"+ plateSave.getNamePlate());
@@ -41,7 +41,7 @@ public class PlateUseCase implements IPlateServicePort{
 		Plate plateObject=platePersistencePort.findyByIdEntity(updatePlate.getId());
 		plateObject.setPrice(updatePlate.getPrice());
 		plateObject.setDescription(updatePlate.getDescription());
-		PlateValidation.ValidatePlateEntity(plateObject);
+		PlateValidation.validatePlate(plateObject);
 		Plate plateSave=platePersistencePort.updatePlate(plateObject);
 		return new MessageResponse(
 	            "Plate update with name %"+ plateSave.getNamePlate());

@@ -1,15 +1,12 @@
 package com.plazoleta.domain.spi;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.plazoleta.application.dto.request.SearchPlateRequestDto;
-import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
-import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Plate;
 import com.plazoleta.domain.model.Restaurant;
 import com.plazoleta.domain.model.SearchPlate;
 import com.plazoleta.infrastructure.out.jpa.entity.PlateEntity;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface IPlatePersistencePort {
 

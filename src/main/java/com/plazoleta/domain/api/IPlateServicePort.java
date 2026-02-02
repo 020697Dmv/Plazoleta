@@ -1,15 +1,8 @@
 package com.plazoleta.domain.api;
 
-import java.util.List;
+import com.plazoleta.domain.model.*;
 
-import com.plazoleta.application.dto.request.EnablePlateResquestDto;
-import com.plazoleta.application.dto.request.SearchPlateRequestDto;
-import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
-import com.plazoleta.domain.model.EnablePlate;
-import com.plazoleta.domain.model.MessageResponse;
-import com.plazoleta.domain.model.Plate;
-import com.plazoleta.domain.model.SearchPlate;
-import com.plazoleta.domain.model.UpdatePlate;
+import java.util.List;
 
 public interface IPlateServicePort {
 	

@@ -34,32 +34,28 @@ public class PlateHandler implements IPlateHandler{
 	@Override
 	public MessageResponse savePlate(PlateRequestDto plateRequestDto) {
 		Plate plate=plateRequestMapper.toPlate(plateRequestDto);
-		MessageResponse messageResponse=plateServicePort.savePlate(plate);
-		return messageResponse;
+		return plateServicePort.savePlate(plate);
 	}
 
 
 	@Override
 	public MessageResponse updatePlate(UpdatePlateRequestDto updatePlateRequestDto) {
 		UpdatePlate updatePlate=plateResponseMapper.toUpdatePlate(updatePlateRequestDto);
-		MessageResponse messageResponse=plateServicePort.updatePlate(updatePlate);
-		return messageResponse;
+		return plateServicePort.updatePlate(updatePlate);
 	}
 
 
 	@Override
 	public MessageResponse updateActivePlate(EnablePlateResquestDto enablePlateResquestDto) {
 		EnablePlate enablePlate=plateResponseMapper.toEnablePlate(enablePlateResquestDto);
-		MessageResponse messageResponse=plateServicePort.updateActivePlate(enablePlate);
-		return messageResponse;
+		return plateServicePort.updateActivePlate(enablePlate);
 	}
 
 
 	@Override
 	public List<Plate> toResponseListPlates(SearchPlateRequestDto searchPlateRequestDto) {
 		SearchPlate searchPlate=plateResponseMapper.searchPlate(searchPlateRequestDto);
-		List<Plate> plates=plateServicePort.toResponseList(searchPlate);		
-		return plates;
+		return plateServicePort.toResponseList(searchPlate);
 	}
 	
 	

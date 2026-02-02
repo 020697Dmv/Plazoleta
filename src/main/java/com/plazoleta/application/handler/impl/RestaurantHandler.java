@@ -31,8 +31,7 @@ public class RestaurantHandler implements IRestaurantHandler{
 	@Override
 	public MessageResponse saveRestaurant(RestaurantRequestDto restaurantRequestDto) {
 		Restaurant restaurant=restaurantRequestMapper.toRestaurant(restaurantRequestDto);
-		MessageResponse  messageResponse=restaurantServicePort.saveRestaurant(restaurant);
-		return messageResponse;
+		return restaurantServicePort.saveRestaurant(restaurant);
 	}
 
 
