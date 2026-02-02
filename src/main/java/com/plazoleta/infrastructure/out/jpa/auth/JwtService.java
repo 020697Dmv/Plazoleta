@@ -17,23 +17,20 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
 	
 	@Value("${secret.key}")
-	private String SECRET_KEY;
+	private String secretKEY;
 
 	public String getToken(UserDetails user) {
 	    Map<String, Object> extraClaims = new HashMap<>();
 	    
 	    List<String> permissions = user.getAuthorities().stream()
 	            .map(GrantedAuthority::getAuthority)
-	            .collect(Collectors.toList());
+	            .toList();
 
 	    extraClaims.put("role", permissions);
 
@@ -51,7 +48,7 @@ public class JwtService {
 	}
 
 	private Key getKey() {
-	    byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+	    byte[] keyBytes = Decoders.BASE64.decode(secretKEY);
 	    return Keys.hmacShaKeyFor(keyBytes);
 	}
 

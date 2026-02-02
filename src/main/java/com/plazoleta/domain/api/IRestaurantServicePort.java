@@ -1,11 +1,10 @@
 package com.plazoleta.domain.api;
 
-import java.util.List;
-
-import com.plazoleta.application.dto.request.PageRequestDto;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.PageRequest;
 import com.plazoleta.domain.model.Restaurant;
+
+import java.util.List;
 
 public interface IRestaurantServicePort {
 

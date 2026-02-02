@@ -16,10 +16,7 @@ import com.plazoleta.application.dto.request.PageRequestDto;
 import com.plazoleta.application.dto.request.PlateRequestDto;
 import com.plazoleta.application.dto.request.SearchPlateRequestDto;
 import com.plazoleta.application.dto.request.UpdatePlateRequestDto;
-import com.plazoleta.application.dto.request.UserRequesteDto;
-import com.plazoleta.application.dto.response.RestaurantPageResponseDto;
 import com.plazoleta.application.handler.IPlateHandler;
-import com.plazoleta.application.handler.IUserHandler;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.Plate;
 

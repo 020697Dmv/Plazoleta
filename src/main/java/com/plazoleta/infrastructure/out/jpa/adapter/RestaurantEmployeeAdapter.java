@@ -16,7 +16,6 @@ import com.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEmployeeMapper;
 import com.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
 import com.plazoleta.infrastructure.out.jpa.mapper.IUserEntityMapper;
 import com.plazoleta.infrastructure.out.jpa.repository.IRestaurantEmployeeRepository;
-import com.plazoleta.infrastructure.out.jpa.repository.IUserRepository;
 
 import lombok.RequiredArgsConstructor;
 

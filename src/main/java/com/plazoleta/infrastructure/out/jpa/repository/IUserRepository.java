@@ -1,11 +1,9 @@
 package com.plazoleta.infrastructure.out.jpa.repository;
 
-import java.util.Optional;
-
+import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
-import java.util.List;
+import java.util.Optional;
 
 
 public interface IUserRepository  extends JpaRepository<UserEntity, Long>{

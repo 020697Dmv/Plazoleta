@@ -1,14 +1,5 @@
 package com.plazoleta.domain.model;
 
-import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 public class Plate {
 	
 	private String namePlate;

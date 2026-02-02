@@ -1,17 +1,12 @@
 package com.plazoleta.domain.spi;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.plazoleta.application.dto.request.AssignOrderRequestDto;
-import com.plazoleta.application.dto.request.OrderRequestDto;
-import com.plazoleta.application.dto.request.OrderStatusRequestDto;
 import com.plazoleta.domain.model.AssignOrderRequest;
 import com.plazoleta.domain.model.OrderListModel;
 import com.plazoleta.domain.model.OrderStatusRequest;
-import com.plazoleta.domain.model.Orders;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
-import com.plazoleta.infrastructure.out.jpa.entity.PlateEntity;
+
+import java.util.List;
+import java.util.Optional;
 
 
 public interface IOrderPersistencePort {

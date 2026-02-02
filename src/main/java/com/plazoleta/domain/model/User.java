@@ -1,10 +1,8 @@
 package com.plazoleta.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import java.time.LocalDate;
-
 import com.plazoleta.infrastructure.out.jpa.util.Role;
+
+import java.time.LocalDate;
 
 public class User {
 	

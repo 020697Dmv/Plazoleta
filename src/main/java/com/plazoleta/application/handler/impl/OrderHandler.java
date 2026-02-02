@@ -32,8 +32,7 @@ public class OrderHandler implements IOrderHandler{
 	@Override
 	public MessageResponse saveOrder(OrderRequestDto orderRequestDto) {
 		OrderRequest orderRequest=orderRequestMapper.toOrderRequest(orderRequestDto);
-		MessageResponse messageResponse=orderServicePort.saveOrder(orderRequest);
-		return messageResponse;
+		return orderServicePort.saveOrder(orderRequest);
 	}
 
 
@@ -61,17 +60,14 @@ public class OrderHandler implements IOrderHandler{
 
 	@Override
 	public MessageResponse updateStatusOrder(String secutiryCode,Long idOrder) {
-		MessageResponse messageResponse=orderServicePort.updateStatusOrder(secutiryCode, idOrder);
-			return messageResponse;
+		return orderServicePort.updateStatusOrder(secutiryCode, idOrder);
 	}
 
 
 	@Override
 	public MessageResponse cancelStatusOrder(Long idOrder) {
-		MessageResponse messageResponse=orderServicePort.cancelStatusOrder(idOrder);			
-		return messageResponse;
+		return orderServicePort.cancelStatusOrder(idOrder);
 	}
-	
 	
 
 }
