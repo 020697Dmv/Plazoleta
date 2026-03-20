@@ -24,6 +24,7 @@ public class ProductService implements IProductService{
 	private HttpHeaders httpHeaders = new HttpHeaders();
 	
 	
+	@Autowired
 	private MapperProduct mapper;
 	
 	public ProductService() {
