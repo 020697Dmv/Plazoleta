@@ -16,7 +16,7 @@ public interface IPlatePersistencePort {
 	
 	Plate updatePlate(Plate plate);
 	
-	Plate findyByIdEntity(Long id);
+	Plate findyByIdModel(Long id);
 	
 	List<Plate> toResponseList(SearchPlate searchPlate);
 	

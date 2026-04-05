@@ -19,7 +19,7 @@ public interface IOrderServicePort {
 	void sendSmdNotify(Long idOrder);
 	MessageResponse updateStatusOrder(String secutiryCode, Long orderId);
 	MessageResponse cancelStatusOrder(Long orderId);
-	
+	Long getIdClienteByIdOrder();
 
 }
 

@@ -54,7 +54,7 @@ public class PlateAdapter implements IPlatePersistencePort {
 	}
 
 	@Override
-	public Plate findyByIdEntity(Long id) {
+	public Plate findyByIdModel(Long id) {
 		
 		Optional<PlateEntity>plate=plateRepository.findById(id);
 		if(plate.isEmpty()) {

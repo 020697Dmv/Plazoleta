@@ -12,11 +12,12 @@ import com.plazoleta.infrastructure.out.jpa.repository.IUserRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserUseCaseConfiguration {
     public IUserServicePort usuarioServicioPort(IUserPersistencePort userPersistencePort,IRestaurantEmployeePersistencePort restaurantEmployeePersistencePort,
-    		IRestaurantPersistencePort restaurantPersistencePort) {
-        return new UserUseCase(userPersistencePort, restaurantEmployeePersistencePort, restaurantPersistencePort);
+    		IRestaurantPersistencePort restaurantPersistencePort, PasswordEncoder passwordEncoder) {
+        return new UserUseCase(userPersistencePort, restaurantEmployeePersistencePort, restaurantPersistencePort, passwordEncoder);
     }
 
     public IUserPersistencePort usuarioPersistencePort(IUserRepository usuarioRepository, IUserEntityMapper usuarioEntidadMapeo) {

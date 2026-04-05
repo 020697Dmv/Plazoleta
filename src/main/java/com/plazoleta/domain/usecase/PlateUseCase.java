@@ -38,7 +38,7 @@ public class PlateUseCase implements IPlateServicePort{
 
 	@Override
 	public MessageResponse updatePlate(UpdatePlate updatePlate) {
-		Plate plateObject=platePersistencePort.findyByIdEntity(updatePlate.getId());
+		Plate plateObject=platePersistencePort.findyByIdModel(updatePlate.getId());
 		plateObject.setPrice(updatePlate.getPrice());
 		plateObject.setDescription(updatePlate.getDescription());
 		PlateValidation.validatePlate(plateObject);
@@ -50,7 +50,7 @@ public class PlateUseCase implements IPlateServicePort{
 	@Override
 	public MessageResponse updateActivePlate(EnablePlate enablePlateo) {
 		
-	    Plate plateObject = platePersistencePort.findyByIdEntity(enablePlateo.getIdPlate());
+	    Plate plateObject = platePersistencePort.findyByIdModel(enablePlateo.getIdPlate());
 	    	Long idRestaurant=plateObject.getRestaurant();
 	    	Restaurant restaurantOwner = restaurantPersistencePort.findById(idRestaurant);
 

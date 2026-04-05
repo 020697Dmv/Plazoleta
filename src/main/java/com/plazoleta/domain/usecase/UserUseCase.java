@@ -32,7 +32,7 @@ public class UserUseCase  implements IUserServicePort {
 
 	private static final String MESSAGE_PERMISSION = "You do not have permission to perform this action";
 
-	private  PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
 
 	@Override

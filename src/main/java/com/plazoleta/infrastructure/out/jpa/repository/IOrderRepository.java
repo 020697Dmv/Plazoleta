@@ -13,13 +13,13 @@ public interface IOrderRepository extends JpaRepository<OrderEntity, Long> {
 
     Page<OrderEntity> findAllByStatus(String status, Pageable pageable);
     
-    Page<OrderEntity> findAllByRestaurantNitAndStatus(Long restaurantNit, String status, Pageable pageable);
+    Page<OrderEntity> findAllByRestaurantAndStatus(Long restaurantNit, String status, Pageable pageable);
     
-    Page<OrderEntity> findAllByRestaurantNit(Long restaurantNit, Pageable pageable);
+    Page<OrderEntity> findAllByRestaurant(Long restaurantNit, Pageable pageable);
 
-    Optional<OrderEntity> findByIdAndRestaurantNit(Long id, Long restaurantNit);
+    Optional<OrderEntity> findByIdAndRestaurant(Long id, Long restaurantNit);
     
-    Optional<OrderEntity> findByIdAndRestaurantNitAndFkEmployeeId(Long id, Long restaurantNit, Long fkEmployeeId);
+    Optional<OrderEntity> findByIdAndRestaurantAndFkEmployeeId(Long id, Long restaurantNit, Long fkEmployeeId);
     
     Optional<OrderEntity> findByIdAndClientId(Long id, Long clientId);
 }
