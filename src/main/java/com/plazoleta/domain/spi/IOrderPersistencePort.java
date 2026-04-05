@@ -1,9 +1,8 @@
 package com.plazoleta.domain.spi;
 
-import com.plazoleta.domain.model.AssignOrderRequest;
-import com.plazoleta.domain.model.OrderListModel;
-import com.plazoleta.domain.model.OrderStatusRequest;
+import com.plazoleta.domain.model.*;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
+import com.plazoleta.infrastructure.out.jpa.entity.OrderPlateEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,4 +25,6 @@ public interface IOrderPersistencePort {
 	Optional<OrderEntity> findByIdOrderEmployeeId(Long id, Long restaurantNit, Long fkEmployeeId);
 
 	Optional<OrderEntity> findByIdAndClientId(Long id, Long clientId);
+
+	OrderEntity saveOrderPlate(Orders orden,  List<OrderPlateRequest> plates);
 }

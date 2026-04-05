@@ -48,9 +48,7 @@ class UserUseCaseTest {
     @BeforeEach
     void before() {
         SecurityContextHolder.clearContext();
-        // create instance manually so we can inject the non-final passwordEncoder
-        userUseCase = new UserUseCase(userPersistencePort, restaurantEmployeePersistencePort, restaurantPersistencePort);
-        org.springframework.test.util.ReflectionTestUtils.setField(userUseCase, "passwordEncoder", passwordEncoder);
+        userUseCase = new UserUseCase(userPersistencePort, restaurantEmployeePersistencePort, restaurantPersistencePort, passwordEncoder);
     }
 
     @AfterEach

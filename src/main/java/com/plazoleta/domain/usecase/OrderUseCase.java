@@ -7,13 +7,17 @@ import java.util.Random;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
+import com.plazoleta.infrastructure.out.jpa.util.ConstantsClass;
 import com.plazoleta.domain.api.IOrderServicePort;
 import com.plazoleta.domain.model.AssignOrderRequest;
 import com.plazoleta.domain.model.MessageResponse;
 import com.plazoleta.domain.model.OrderListModel;
+import com.plazoleta.domain.model.OrderPlateRequest;
 import com.plazoleta.domain.model.OrderRequest;
 import com.plazoleta.domain.model.OrderStatusRequest;
+import com.plazoleta.domain.model.Orders;
+import com.plazoleta.domain.model.Plate;
+import com.plazoleta.domain.model.Restaurant;
 import com.plazoleta.domain.model.RestaurantEmployee;
 import com.plazoleta.domain.model.SmsRequest;
 import com.plazoleta.domain.model.User;
@@ -28,9 +32,6 @@ import com.plazoleta.domain.exception.NotPermissionuserException;
 import com.plazoleta.infrastructure.exception.OrderNotFoundException;
 import com.plazoleta.infrastructure.exception.UserNotFoundException;
 import com.plazoleta.infrastructure.out.jpa.entity.OrderEntity;
-import com.plazoleta.infrastructure.out.jpa.entity.OrderPlateEntity;
-import com.plazoleta.infrastructure.out.jpa.entity.PlateEntity;
-import com.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.plazoleta.infrastructure.out.jpa.entity.UserEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -38,73 +39,53 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class OrderUseCase  implements IOrderServicePort{
-	
+
 	private final IOrderPersistencePort orderPersistencePort;
 
 	private final IPlatePersistencePort platePersistencePort;
 
-	
+
 	private final IRestaurantPersistencePort restaurantPersistencePort;
-	
+
 	private final IRestaurantEmployeePersistencePort restaurantEmployeePersistencePort;
-	
+
 	private final IUserPersistencePort userPersistencePort;
 
 	private final ISmsSenderPersistencePort smsSenderPersistencePort;
-
-	private static final String STATUSPENDIENTE = "PENDIENTE";  // Compliant
-
-	private static final String STATUSLISTO = "LISTO";  // Compliant
 
 	private static final Random RANDOM = new Random();
 
 
 	@Override
 	public MessageResponse saveOrder(OrderRequest orderRequestDto) {
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    UserEntity userEntity = (UserEntity) auth.getPrincipal(); 
-	    Long clientId=null;
-	    boolean isClient = auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("CLIENT"));
-			if(isClient) {
-			clientId = userEntity.getId();
-			} else {
-			throw new UserNotFoundException();
-			}
-	    List<String> inProcessStatuses = List.of(STATUSPENDIENTE, "EN_PREPARACION", STATUSLISTO);
+
+
+	    Long clientId=getIdClienteByIdOrder();
+
+	    List<String> inProcessStatuses = List.of(ConstantsClass.STATUSPENDIENTE, ConstantsClass.STATUSPREPARACION, ConstantsClass.STATUSLISTO);
 	    if (orderPersistencePort.existsByClientIdAndStatusIn(clientId, inProcessStatuses)) {
 	        return new MessageResponse("Ya tienes un pedido en curso."+ clientId);
 	    }
 
-	    RestaurantEntity restaurant = restaurantPersistencePort.findByIdEntity(orderRequestDto.getRestaurantId())
-	            .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+	    Restaurant restaurantModel=restaurantPersistencePort.findById(orderRequestDto.getRestaurantId());
 
-	    OrderEntity orderEntity = new OrderEntity();
-	    orderEntity.setClientId(clientId);
-	    orderEntity.setDate(LocalDateTime.now());
-	    orderEntity.setStatus(STATUSPENDIENTE);
-	    orderEntity.setRestaurant(restaurant); 
 
-	    List<OrderPlateEntity> plates = orderRequestDto.getPlates().stream().map(dto -> {
-	        PlateEntity plate = platePersistencePort.findById(dto.getPlateId())
-	                .orElseThrow(() -> new RuntimeException("Plato no encontrado: " + dto.getPlateId()));
+	    Orders orders= new Orders();
+		orders.setClientId(clientId);
+		orders.setDate(LocalDateTime.now());
+		orders.setStatus(ConstantsClass.STATUSPENDIENTE);
+		orders.setNit(restaurantModel.getNit());
 
-	        if (!plate.getRestaurant().getNit().equals(restaurant.getNit())) {
-	            throw new RuntimeException("El plato " + plate.getNamePlate() + " no pertenece a este restaurante.");
-	        }
+	    List<OrderPlateRequest> platesModel = orderRequestDto.getPlates().stream().map(dto -> {
+	    	Plate plate = platePersistencePort.findyByIdModel(dto.getPlateId());
 
-	        OrderPlateEntity plateEntry = new OrderPlateEntity();
-	        plateEntry.setPlate(plate); 
-	        plateEntry.setQuantity(dto.getQuantity()); 
-	        plateEntry.setOrder(orderEntity); 
-	        return plateEntry;
+	    	if (!plate.getRestaurant().equals(restaurantModel.getNit())) {
+	    		throw new RuntimeException("El plato " + plate.getNamePlate() + " no pertenece a este restaurante.");
+	    	}
+	    	return dto;
 	    }).toList();
 
-	    orderEntity.setOrderPlates(plates);
-
-	    orderPersistencePort.saveOrder(orderEntity);
-
+		orderPersistencePort.saveOrderPlate(orders,platesModel);
 	    return new MessageResponse(String.format("Order created with id Client %d", clientId));
 	}
 
@@ -140,7 +121,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	    	    .map(order -> {
 	    	        order.setFkEmployeeId(idEmpleado); 
 	    	        
-	    	        order.setStatus("EN_PREPARACION"); 
+	    	        order.setStatus(ConstantsClass.STATUSPREPARACION); 
 	    	        
 	    	        return order;
 	    	    })
@@ -168,7 +149,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	 
 		 OrderEntity orderSaveEntity = orderPersistencePort.findById(orderId,restaruantEmployeeId.getIdRestaurant())
 		    	    .map(order -> {
-		    	    	order.setStatus(STATUSLISTO);
+		    	    	order.setStatus(ConstantsClass.STATUSLISTO);
 
 		    	    	order.setSecurityPin(securityPin);
 		    	        return order;
@@ -202,8 +183,8 @@ public class OrderUseCase  implements IOrderServicePort{
 	    		restaruantEmployeeId.getIdEmployee())
 	    	    .map(order -> {
 	    	    	
-	    	    	if(secutiryCode.equals(order.getSecurityPin()) && STATUSLISTO.equals(order.getStatus())) {
-		    	    	order.setStatus("ENTREGADO");
+	    	    	if(secutiryCode.equals(order.getSecurityPin()) && ConstantsClass.STATUSLISTO.equals(order.getStatus())) {
+		    	    	order.setStatus(ConstantsClass.STATUSENTREGADO);
 
 	    	    	} else {
 	    	    		
@@ -230,7 +211,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	    OrderEntity orderSaveEntity = orderPersistencePort.findByIdAndClientId(orderId, idEmpleado)
 	    	    .map(order -> {
 	    	    	
-	    	    	if(STATUSPENDIENTE.equals(order.getStatus())) {
+	    	    	if(ConstantsClass.STATUSPENDIENTE.equals(order.getStatus())) {
 		    	    	order.setStatus("CANCELADO");
 
 	    	    	} else {
@@ -247,6 +228,21 @@ public class OrderUseCase  implements IOrderServicePort{
 		
 	    return new MessageResponse("The order status has been updated to Delivered, client ID: "+ orderId);
 	}
-	
+
+	@Override
+	public Long getIdClienteByIdOrder() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserEntity userEntity = (UserEntity) auth.getPrincipal();
+		Long clientId=null;
+		boolean isClient = auth.getAuthorities().stream()
+				.anyMatch(a -> a.getAuthority().equals("CLIENT"));
+		if(isClient) {
+			clientId = userEntity.getId();
+			return clientId;
+		} else {
+			throw new UserNotFoundException();
+		}
+	}
+
 
 }
