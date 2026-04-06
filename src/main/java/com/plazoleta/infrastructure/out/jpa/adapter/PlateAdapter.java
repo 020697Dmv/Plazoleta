@@ -41,10 +41,6 @@ public class PlateAdapter implements IPlatePersistencePort {
 		return plateEntityMapper.toPlate(saveEntity);
 	}
 
-	@Override
-	public Optional<Plate> findyById(Long id) {
-		return plateRepository.findById(id).map(plateEntityMapper::toPlate);
-	}
 
 	@Override
 	public Plate updatePlate(Plate plate) {
@@ -88,11 +84,6 @@ public class PlateAdapter implements IPlatePersistencePort {
 		
 	}
 
-	@Override
-	public Optional<PlateEntity> findById(Long id) {
-		return plateRepository.findById(id);
-
-	}
 
 
 }

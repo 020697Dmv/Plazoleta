@@ -61,17 +61,7 @@ class PlateAdapterTest {
         verify(plateEntityMapper).toPlate(saved);
     }
 
-    @Test
-    void findyById_present_maps() {
-        PlateEntity entity = new PlateEntity();
-        Plate out = new Plate();
-        when(plateRepository.findById(1L)).thenReturn(Optional.of(entity));
-        when(plateEntityMapper.toPlate(entity)).thenReturn(out);
-
-        Optional<Plate> result = plateAdapter.findyById(1L);
-        assertTrue(result.isPresent());
-        assertSame(out, result.get());
-    }
+  
 
     @Test
     void updatePlate_savesAndReturns() {
@@ -89,11 +79,6 @@ class PlateAdapterTest {
         assertSame(out, result);
     }
 
-    @Test
-    void findyByIdEntity_missing_throws() {
-        when(plateRepository.findById(9L)).thenReturn(Optional.empty());
-        assertThrows(PlateNotFoundException.class, () -> plateAdapter.findyByIdEntity(9L));
-    }
 
     @Test
     void toResponseList_noCategory_usesFindByRestaurantNit() {

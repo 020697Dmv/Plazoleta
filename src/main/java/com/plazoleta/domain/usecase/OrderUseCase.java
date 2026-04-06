@@ -86,16 +86,14 @@ public class OrderUseCase  implements IOrderServicePort{
 	    }).toList();
 
 		orderPersistencePort.saveOrderPlate(orders,platesModel);
-	    return new MessageResponse(String.format("Order created with id Client %d", clientId));
+	    return new MessageResponse("Order created with id Client %d" + clientId);
 	}
 
 
 	@Override
 	public List<OrderListModel> orders(OrderStatusRequest orderStatusRequest) {
 		
-		  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		    UserEntity userEntity = (UserEntity) auth.getPrincipal(); 
-		    Long idEmpleado = userEntity.getId();
+		Long idEmpleado = getAuthenticatedUserId();
 		   
 		
 		RestaurantEmployee restaruantEmployeeId=restaurantEmployeePersistencePort.findByIdEmployee(idEmpleado);
@@ -109,9 +107,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	@Override
 	public List<OrderListModel> ordersAsignStatus(AssignOrderRequest assignOrderRequest) {
 		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    UserEntity userEntity = (UserEntity) auth.getPrincipal(); 
-	    Long idEmpleado = userEntity.getId();
+	    Long idEmpleado = getAuthenticatedUserId();
 	   
 	
 	    RestaurantEmployee restaruantEmployeeId=restaurantEmployeePersistencePort.findByIdEmployee(idEmpleado);
@@ -135,9 +131,7 @@ public class OrderUseCase  implements IOrderServicePort{
 	@Override
 	public void sendSmdNotify(Long orderId) {
 		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    UserEntity userEntity = (UserEntity) auth.getPrincipal(); 
-	    Long idEmpleado = userEntity.getId();
+	    Long idEmpleado = getAuthenticatedUserId();
 	   
 	
 	    RestaurantEmployee restaruantEmployeeId=restaurantEmployeePersistencePort.findByIdEmployee(idEmpleado);
@@ -171,9 +165,7 @@ public class OrderUseCase  implements IOrderServicePort{
 
 	@Override
 	public MessageResponse updateStatusOrder(String secutiryCode, Long orderId) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    UserEntity userEntity = (UserEntity) auth.getPrincipal(); 
-	    Long idEmpleado = userEntity.getId();
+	    Long idEmpleado = getAuthenticatedUserId();
 	    
 	    RestaurantEmployee restaruantEmployeeId=restaurantEmployeePersistencePort.findByIdEmployee(idEmpleado);
 	   
@@ -204,9 +196,7 @@ public class OrderUseCase  implements IOrderServicePort{
 
 	@Override
 	public MessageResponse cancelStatusOrder(Long orderId) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    UserEntity userEntity = (UserEntity) auth.getPrincipal(); 
-	    Long idEmpleado = userEntity.getId();
+	    Long idEmpleado = getAuthenticatedUserId();
 	        
 	    OrderEntity orderSaveEntity = orderPersistencePort.findByIdAndClientId(orderId, idEmpleado)
 	    	    .map(order -> {
@@ -232,16 +222,32 @@ public class OrderUseCase  implements IOrderServicePort{
 	@Override
 	public Long getIdClienteByIdOrder() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserEntity userEntity = (UserEntity) auth.getPrincipal();
 		Long clientId=null;
 		boolean isClient = auth.getAuthorities().stream()
 				.anyMatch(a -> a.getAuthority().equals("CLIENT"));
 		if(isClient) {
-			clientId = userEntity.getId();
+			clientId = getAuthenticatedUserId();
 			return clientId;
 		} else {
 			throw new UserNotFoundException();
 		}
+	}
+
+	private Long getAuthenticatedUserId() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null || auth.getPrincipal() == null) {
+			throw new UserNotFoundException();
+		}
+
+		Object principal = auth.getPrincipal();
+		if (principal instanceof UserEntity userEntity) {
+			return userEntity.getId();
+		}
+		if (principal instanceof User user) {
+			return user.getId();
+		}
+
+		throw new IllegalStateException("Unsupported principal type: " + principal.getClass().getName());
 	}
 
 
