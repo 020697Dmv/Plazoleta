@@ -16,6 +16,4 @@ public interface IRestaurantPersistencePort {
 	List<Restaurant> getAllRestaurants (int page, int size);
 
 	
-	Optional<RestaurantEntity>  findByIdEntity(Long id);
-
 }

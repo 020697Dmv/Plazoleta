@@ -12,7 +12,6 @@ public interface IPlatePersistencePort {
 
 	Plate savePlate(Plate plate, Restaurant restaurant);
 	
-	Optional<Plate> findyById(Long id);
 	
 	Plate updatePlate(Plate plate);
 	
@@ -20,6 +19,5 @@ public interface IPlatePersistencePort {
 	
 	List<Plate> toResponseList(SearchPlate searchPlate);
 	
-	Optional<PlateEntity> findById(Long id);
 
 }
